@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { products } from "@/data/products";
-import { formatCurrency } from "@/lib/format";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
+import { products } from "@/app/_data/products";
+import { formatCurrency } from "@/app/_lib/format";
 
 export const metadata: Metadata = {
   title: "Comparativos de produtos tech",

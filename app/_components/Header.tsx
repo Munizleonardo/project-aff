@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronDown, ChevronRight, Search, UserRound, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { departments } from "@/data/departments";
+import { ChevronDown, ChevronRight, Search, UserRound } from "lucide-react";
+import { Button } from "@/app/_components/ui/button";
+import { departments } from "@/app/_data/departments";
 import { CartButton } from "./CartButton";
 import { DepartmentMenu } from "./DepartmentMenu";
 import { Logo } from "./Logo";
@@ -137,10 +137,10 @@ export function Header() {
       >
         <Link
           href="/"
-          className="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-violet-700 via-blue-600 to-cyan-400 text-white shadow-lg shadow-violet-900/40 transition hover:scale-105 active:scale-95"
+          className="transition hover:scale-105 active:scale-95"
           aria-label="Ir para início"
         >
-          <Zap className="size-5 fill-white" />
+          <Logo symbolOnly withLink={false} className="text-white" />
         </Link>
         <FloatingDepartments
           open={showDepartments}

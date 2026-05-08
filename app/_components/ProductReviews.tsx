@@ -1,5 +1,5 @@
-import { Product } from "@/data/products";
-import { Card } from "@/components/ui/card";
+import { Product } from "@/app/_data/products";
+import { Card } from "@/app/_components/ui/card";
 import { RatingStars } from "./RatingStars";
 
 export function ProductReviews({ product }: { product: Product }) {

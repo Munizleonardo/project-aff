@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/_components/ui/input";
 
 export function SearchBar({ compact = false }: { compact?: boolean }) {
   return (

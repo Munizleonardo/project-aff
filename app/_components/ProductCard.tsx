@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Eye, MoveRight } from "lucide-react";
-import { Product } from "@/data/products";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Product } from "@/app/_data/products";
+import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
+import { Card, CardContent } from "@/app/_components/ui/card";
 import { ProductPrice } from "./ProductPrice";
 import { RatingStars } from "./RatingStars";
 import { AddToCartButton } from "./AddToCartButton";

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getProductById } from "@/data/products";
+import { getProductById } from "@/app/_data/products";
 
 type Props = { params: Promise<{ productId: string }> };
 

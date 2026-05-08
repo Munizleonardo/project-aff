@@ -1,4 +1,4 @@
-import { Product } from "@/data/products";
+import { Product } from "@/app/_data/products";
 import { ProductCard } from "./ProductCard";
 
 export function ProductGrid({ products }: { products: Product[] }) {

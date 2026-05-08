@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Tag } from "lucide-react";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { ProductGrid } from "@/components/ProductGrid";
-import { products } from "@/data/products";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
+import { ProductGrid } from "@/app/_components/ProductGrid";
+import { products } from "@/app/_data/products";
 
 export const metadata: Metadata = {
   title: "Ofertas tech com desconto",

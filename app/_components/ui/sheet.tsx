@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Dialog } from "radix-ui"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/app/_lib/utils"
 
 function Sheet({ ...props }: React.ComponentProps<typeof Dialog.Root>) {
   return <Dialog.Root data-slot="sheet" {...props} />

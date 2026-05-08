@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Header } from "@/app/_components/Header";
+import { Footer } from "@/app/_components/Footer";
+import { Button } from "@/app/_components/ui/button";
+import { Card } from "@/app/_components/ui/card";
+import { Input } from "@/app/_components/ui/input";
 
 export const metadata: Metadata = { title: "Entrar", description: "Acesse sua conta TechParks.", alternates: { canonical: "/login" } };
 

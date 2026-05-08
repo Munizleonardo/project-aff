@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Check, ExternalLink, Heart, Info, Star, Trophy, Eye, Sparkles, TrendingUp } from "lucide-react";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { AddToCartButton } from "@/components/AddToCartButton";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ProductCard } from "@/components/ProductCard";
-import { getProductBySlug, products } from "@/data/products";
-import { formatCurrency } from "@/lib/format";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
+import { AddToCartButton } from "@/app/_components/AddToCartButton";
+import { Button } from "@/app/_components/ui/button";
+import { Card } from "@/app/_components/ui/card";
+import { ProductCard } from "@/app/_components/ProductCard";
+import { getProductBySlug, products } from "@/app/_data/products";
+import { formatCurrency } from "@/app/_lib/format";
 
 type Props = { params: Promise<{ slug: string }> };
 

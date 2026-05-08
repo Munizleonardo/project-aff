@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { Card } from "@/components/ui/card";
-import { departments } from "@/data/departments";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
+import { Card } from "@/app/_components/ui/card";
+import { departments } from "@/app/_data/departments";
 
 export const metadata: Metadata = {
   title: "Departamentos tech",

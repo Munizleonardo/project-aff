@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, ShieldCheck, Sparkles, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { topProducts } from "@/data/products";
-import { formatCurrency } from "@/lib/format";
+import { Button } from "@/app/_components/ui/button";
+import { topProducts } from "@/app/_data/products";
+import { formatCurrency } from "@/app/_lib/format";
 
 function FloatingOfferPanel() {
   const leftProducts = topProducts.slice(0, 8);

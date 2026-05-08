@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Menu, UserRound } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { departments } from "@/data/departments";
+import { Button } from "@/app/_components/ui/button";
+import { departments } from "@/app/_data/departments";
 import { CartButton } from "./CartButton";
 import { ThemeToggle } from "./ThemeToggle";
 

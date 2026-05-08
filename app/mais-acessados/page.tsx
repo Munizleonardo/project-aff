@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { ProductGrid } from "@/components/ProductGrid";
-import { topProducts } from "@/data/products";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
+import { ProductGrid } from "@/app/_components/ProductGrid";
+import { topProducts } from "@/app/_data/products";
 
 export const metadata: Metadata = {
   title: "Produtos mais acessados",

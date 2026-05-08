@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { CartProvider } from "@/components/CartProvider";
+import { CartProvider } from "@/app/_components/CartProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://techparks.example"),
+  icons: {
+    icon: "/parkslogo.webp",
+    shortcut: "/parkslogo.webp",
+    apple: "/parkslogo.webp",
+  },
   title: {
     default: "TechParks | Ofertas tech, gadgets e setup",
     template: "%s | TechParks",

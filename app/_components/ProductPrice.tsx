@@ -1,4 +1,4 @@
-import { formatCurrency } from "@/lib/format";
+import { formatCurrency } from "@/app/_lib/format";
 
 export function ProductPrice({
   oldPrice,

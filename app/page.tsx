@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Flame } from "lucide-react";
-import { CTASection } from "@/components/CTASection";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { HeroSection } from "@/components/HeroSection";
-import { DepartmentHighlights } from "@/components/DepartmentHighlights";
-import { ProductGrid } from "@/components/ProductGrid";
-import { Badge } from "@/components/ui/badge";
-import { featuredProducts, topProducts } from "@/data/products";
+import { CTASection } from "@/app/_components/CTASection";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
+import { HeroSection } from "@/app/_components/HeroSection";
+import { DepartmentHighlights } from "@/app/_components/DepartmentHighlights";
+import { ProductGrid } from "@/app/_components/ProductGrid";
+import { Badge } from "@/app/_components/ui/badge";
+import { featuredProducts, topProducts } from "@/app/_data/products";
 
 export const metadata: Metadata = {
   title: "Ofertas tech, gadgets e setup com curadoria inteligente",

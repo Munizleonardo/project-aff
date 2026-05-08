@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { featuredProducts } from "@/data/products";
-import { formatCurrency } from "@/lib/format";
+import { featuredProducts } from "@/app/_data/products";
+import { formatCurrency } from "@/app/_lib/format";
 
 export function InfiniteProductCarousel() {
   const items = [...featuredProducts, ...featuredProducts];

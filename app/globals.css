@@ -355,3 +355,39 @@ button[class*="hover:bg-white"]:hover {
 .light-mode .hero-offers-fade-bottom {
   background: linear-gradient(to top, #f8fbff, rgb(248 251 255 / 0.82), transparent) !important;
 }
+
+html {
+  scrollbar-color: #22d3ee #020612;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020612;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2563eb 0%, #22d3ee 100%);
+  border: 2px solid #020612;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #1d4ed8 0%, #06b6d4 100%);
+}
+
+.light-mode html {
+  scrollbar-color: #0ea5e9 #eaf2fb;
+}
+
+.light-mode ::-webkit-scrollbar-track {
+  background: #eaf2fb;
+}
+
+.light-mode ::-webkit-scrollbar-thumb {
+  border-color: #eaf2fb;
+}

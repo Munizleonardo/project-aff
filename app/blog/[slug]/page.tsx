@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { Card } from "@/components/ui/card";
-import { blogPosts, getBlogPostBySlug } from "@/data/blog-posts";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
+import { Card } from "@/app/_components/ui/card";
+import { blogPosts, getBlogPostBySlug } from "@/app/_data/blog-posts";
 
 type Props = { params: Promise<{ slug: string }> };
 

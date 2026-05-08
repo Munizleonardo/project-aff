@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { ProductGrid } from "@/components/ProductGrid";
-import { categories, getCategoryBySlug } from "@/data/categories";
-import { getProductsByDepartment } from "@/data/products";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
+import { ProductGrid } from "@/app/_components/ProductGrid";
+import { categories, getCategoryBySlug } from "@/app/_data/categories";
+import { getProductsByDepartment } from "@/app/_data/products";
 
 type Props = { params: Promise<{ slug: string }> };
 

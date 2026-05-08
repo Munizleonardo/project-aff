@@ -1,4 +1,4 @@
-import { Product } from "@/data/products";
+import { Product } from "@/app/_data/products";
 
 export function ProductGallery({ product }: { product: Product }) {
   return (

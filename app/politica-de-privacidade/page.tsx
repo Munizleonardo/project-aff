@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
 
 export const metadata: Metadata = { title: "Política de privacidade", description: "Como o TechParks trata dados, cliques e preferências.", alternates: { canonical: "/politica-de-privacidade" } };
 

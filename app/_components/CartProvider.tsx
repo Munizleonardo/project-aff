@@ -3,11 +3,11 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import Link from "next/link";
 import { Minus, Plus, ShoppingCart, Trash2, X } from "lucide-react";
-import { products } from "@/data/products";
-import { formatCurrency } from "@/lib/format";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
+import { products } from "@/app/_data/products";
+import { formatCurrency } from "@/app/_lib/format";
+import { Button } from "@/app/_components/ui/button";
+import { Card } from "@/app/_components/ui/card";
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/app/_components/ui/sheet";
 
 type CartItem = {
   productId: string;

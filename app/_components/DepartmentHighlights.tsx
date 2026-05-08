@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
-import { departments } from "@/data/departments";
+import { Card } from "@/app/_components/ui/card";
+import { departments } from "@/app/_data/departments";
 
 export function DepartmentHighlights() {
   return (

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { BlogCard } from "@/components/BlogCard";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { blogPosts } from "@/data/blog-posts";
+import { BlogCard } from "@/app/_components/BlogCard";
+import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/Header";
+import { blogPosts } from "@/app/_data/blog-posts";
 
 export const metadata: Metadata = {
   title: "Blog tech, reviews e guias de compra",
