@@ -16,7 +16,7 @@ export default function ComparisonsPage() {
     <>
       <Header />
       <main className="mx-auto flex max-w-7xl flex-1 flex-col gap-6 px-4 py-10">
-        <h1 className="text-4xl font-black text-white">Comparativos</h1>
+        <h1 className="text-3xl font-black text-white md:text-4xl">Comparativos</h1>
         <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.04]">
           {products.slice(0, 8).map((product) => (
             <Link key={product.id} href={`/produto/${product.slug}`} className="grid gap-3 border-b border-white/10 p-4 text-sm transition hover:bg-white/[0.06] md:grid-cols-[1.4fr_1fr_1fr_1fr]">

@@ -42,11 +42,11 @@ export default async function BlogPostPage({ params }: Props) {
       <Header />
       <main className="mx-auto flex max-w-4xl flex-1 flex-col gap-6 px-4 py-10">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-        <img src={post.image} alt={post.title} className="aspect-[16/8] w-full rounded-xl object-cover" />
+        <img src={post.image} alt={post.title} className="aspect-[16/11] w-full rounded-xl object-cover sm:aspect-[16/8]" />
         <span className="text-sm font-black uppercase tracking-[0.18em] text-cyan-200">{post.category}</span>
-        <h1 className="text-4xl font-black leading-tight text-white">{post.title}</h1>
-        <p className="text-lg leading-8 text-slate-300">{post.excerpt}</p>
-        <Card className="prose prose-invert max-w-none rounded-xl border-white/10 bg-white/[0.04] p-6 text-slate-300">
+        <h1 className="text-3xl font-black leading-tight text-white md:text-4xl">{post.title}</h1>
+        <p className="text-base leading-7 text-slate-300 md:text-lg md:leading-8">{post.excerpt}</p>
+        <Card className="prose prose-invert max-w-none rounded-xl border-white/10 bg-white/[0.04] p-4 text-slate-300 md:p-6">
           <p>Este guia mostra critérios práticos para avaliar preço, durabilidade, usabilidade e real ganho de produtividade antes da compra.</p>
           <p>Em um portal maduro, este conteúdo pode receber comparativos automáticos, alertas de preço, FAQs e links internos por intenção de busca.</p>
         </Card>

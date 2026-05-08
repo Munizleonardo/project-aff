@@ -16,7 +16,7 @@ export default function MostAccessedPage() {
       <Header />
       <main className="mx-auto flex max-w-7xl flex-1 flex-col gap-6 px-4 py-10">
         <div>
-          <h1 className="text-4xl font-black text-white">Produtos mais acessados</h1>
+          <h1 className="text-3xl font-black text-white md:text-4xl">Produtos mais acessados</h1>
           <p className="mt-2 text-slate-300">Ranking preparado para evoluir com analytics, CTR e conversões estimadas.</p>
         </div>
         <ProductGrid products={topProducts} />
