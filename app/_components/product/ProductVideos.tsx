@@ -1,6 +1,6 @@
 import { Play } from "lucide-react";
 import { Card } from "@/app/_components/ui/card";
-import { Product } from "@/app/_data/products";
+import { Product } from "@/data/products";
 
 export function ProductVideos({ product }: { product: Product }) {
   return (

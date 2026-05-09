@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { featuredProducts } from "@/app/_data/products";
+import { featuredProducts } from "@/data/products";
 import { formatCurrency } from "@/app/_lib/format";
 
 export function InfiniteProductCarousel() {

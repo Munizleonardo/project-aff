@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card } from "@/app/_components/ui/card";
-import { departments } from "@/app/_data/departments";
+import { departments } from "@/data/departments";
 
 export function DepartmentHighlights() {
   return (
@@ -8,12 +8,12 @@ export function DepartmentHighlights() {
       {departments.slice(0, 6).map((department) => {
         const Icon = department.icon;
         return (
-          <Card asChild key={department.slug} className="group flex min-h-36 flex-col items-center justify-center gap-3 rounded-[20px] border-slate-800 bg-[#07101f] p-5 text-center shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-cyan-400/50">
+          <Card asChild key={department.slug} className="group flex min-h-28 flex-row items-center justify-start gap-4 rounded-2xl border-slate-800 bg-[#07101f] p-4 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-cyan-400/50 sm:min-h-36 sm:flex-col sm:justify-center sm:gap-3 sm:p-5 sm:text-center">
           <Link href={`/categoria/${department.slug}`}>
-            <span className={`flex size-14 items-center justify-center rounded-full bg-gradient-to-br ${department.accent}`}>
+            <span className={`flex size-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br sm:size-14 sm:rounded-full ${department.accent}`}>
               <Icon className="size-6 text-white" />
             </span>
-            <span className="flex flex-col gap-1 text-center">
+            <span className="flex min-w-0 flex-col gap-1 sm:text-center">
               <strong className="text-white">{department.name}</strong>
               <span className="text-sm leading-5 text-sky-100/70">{department.description.split(".")[0]}</span>
             </span>

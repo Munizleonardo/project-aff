@@ -125,7 +125,27 @@
   }
   html {
     @apply font-sans;
+    scrollbar-color: #38aefb #07101f;
+    scrollbar-width: thin;
   }
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07101f;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid #07101f;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #38aefb 0%, #06b6d4 52%, #7c3aed 100%);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #67c7ff 0%, #22d3ee 50%, #8b5cf6 100%);
 }
 
 @keyframes scroll-x {
@@ -260,6 +280,18 @@ button[class*="hover:bg-white"]:hover {
 .light-mode body {
   background: #f5f8fc;
   color: #07111f;
+}
+
+.light-mode {
+  scrollbar-color: #38aefb #e7eef7;
+}
+
+.light-mode ::-webkit-scrollbar-track {
+  background: #e7eef7;
+}
+
+.light-mode ::-webkit-scrollbar-thumb {
+  border-color: #e7eef7;
 }
 
 .light-mode main,

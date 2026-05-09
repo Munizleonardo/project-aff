@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { blogPosts } from "@/app/_data/blog-posts";
-import { categories } from "@/app/_data/categories";
-import { products } from "@/app/_data/products";
+import { blogPosts } from "@/data/blog-posts";
+import { categories } from "@/data/categories";
+import { products } from "@/data/products";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://techparks.example";

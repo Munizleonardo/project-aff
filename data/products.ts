@@ -427,3 +427,12 @@ export const getProductById = (id: string) =>
 
 export const getProductsByDepartment = (department: string) =>
   products.filter((product) => product.department === department || product.category.toLowerCase() === department);
+
+/** Lista para a PDP: mesmo departamento; se não houver, qualquer outro produto substitui até `limit`. */
+export function getRelatedProductsForDetailPage(product: Product, limit = 4): Product[] {
+  const sameDepartment = products
+    .filter((item) => item.id !== product.id && item.department === product.department)
+    .slice(0, limit);
+  if (sameDepartment.length > 0) return sameDepartment;
+  return products.filter((item) => item.id !== product.id).slice(0, limit);
+}

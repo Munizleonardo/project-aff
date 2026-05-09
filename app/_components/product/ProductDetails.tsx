@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { CheckCircle2, Heart, ShieldCheck } from "lucide-react";
-import { Product } from "@/app/_data/products";
+import { Product } from "@/data/products";
 import { Button } from "@/app/_components/ui/button";
-import { AffiliateDisclosure } from "./AffiliateDisclosure";
+import { AffiliateDisclosure } from "@/app/_components/marketing/AffiliateDisclosure";
 import { ProductPrice } from "./ProductPrice";
 import { RatingStars } from "./RatingStars";
 

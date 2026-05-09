@@ -1,4 +1,4 @@
-import { Product } from "@/app/_data/products";
+import { Product } from "@/data/products";
 import { Card } from "@/app/_components/ui/card";
 import { RatingStars } from "./RatingStars";
 

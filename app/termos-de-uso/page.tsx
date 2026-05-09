@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Footer } from "@/app/_components/Footer";
-import { Header } from "@/app/_components/Header";
+import { Footer } from "@/app/_components/layout/Footer";
+import { Header } from "@/app/_components/layout/Header";
 
 export const metadata: Metadata = { title: "Termos de uso", description: "Termos de uso do portal TechParks.", alternates: { canonical: "/termos-de-uso" } };
 

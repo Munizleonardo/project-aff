@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
-import { getProductById } from "@/app/_data/products";
+import { getProductById } from "@/data/products";
 
 type Props = { params: Promise<{ productId: string }> };
 
-export default async function OfferRedirectPage({ params }: Props) {
+/** Rota técnica: envia ao link de afiliado do marketplace (ou volta para `/ofertas`). */
+export default async function MarketplaceAffiliateOfferRedirect({ params }: Props) {
   const { productId } = await params;
   const product = getProductById(productId);
   redirect(product?.affiliateUrl ?? "/ofertas");

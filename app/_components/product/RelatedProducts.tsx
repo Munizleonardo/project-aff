@@ -1,4 +1,4 @@
-import { Product, products } from "@/app/_data/products";
+import { Product, products } from "@/data/products";
 import { ProductGrid } from "./ProductGrid";
 
 export function RelatedProducts({ product }: { product: Product }) {

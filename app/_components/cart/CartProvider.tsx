@@ -3,7 +3,7 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import Link from "next/link";
 import { Minus, Plus, ShoppingCart, Trash2, X } from "lucide-react";
-import { products } from "@/app/_data/products";
+import { products } from "@/data/products";
 import { formatCurrency } from "@/app/_lib/format";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
@@ -26,7 +26,8 @@ type CartContextValue = {
 const CartContext = createContext<CartContextValue | null>(null);
 const storageKey = "techparks-cart";
 
-function readInitialCart() {
+/** Lê snapshot serializado pelo cliente; retorna lista vazia no SSR ou JSON inválido. */
+function parseCartItemsFromBrowserStorage(): CartItem[] {
   if (typeof window === "undefined") return [];
   try {
     const stored = window.localStorage.getItem(storageKey);
@@ -43,31 +44,32 @@ export function useCart() {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(readInitialCart);
+  const [items, setItems] = useState<CartItem[]>(parseCartItemsFromBrowserStorage);
   const [isOpen, setIsOpen] = useState(false);
 
-  function persist(nextItems: CartItem[]) {
+  /** Atualiza estado React + `localStorage` com uma cópia canônica do carrinho. */
+  function replaceCartItemsAndPersistToStorage(nextItems: CartItem[]) {
     setItems(nextItems);
     window.localStorage.setItem(storageKey, JSON.stringify(nextItems));
   }
 
-  function addItem(productId: string) {
+  function addOneUnitOfProduct(productId: string) {
     const existing = items.find((item) => item.productId === productId);
     const nextItems = existing
       ? items.map((item) => item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item)
       : [...items, { productId, quantity: 1 }];
-    persist(nextItems);
+    replaceCartItemsAndPersistToStorage(nextItems);
   }
 
-  function decrementItem(productId: string) {
+  function removeOneUnitOfProduct(productId: string) {
     const nextItems = items
       .map((item) => item.productId === productId ? { ...item, quantity: item.quantity - 1 } : item)
       .filter((item) => item.quantity > 0);
-    persist(nextItems);
+    replaceCartItemsAndPersistToStorage(nextItems);
   }
 
-  function removeItem(productId: string) {
-    persist(items.filter((item) => item.productId !== productId));
+  function removeProductLineFromCart(productId: string) {
+    replaceCartItemsAndPersistToStorage(items.filter((item) => item.productId !== productId));
   }
 
   const cartProducts = useMemo(() => {
@@ -84,7 +86,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const savings = cartProducts.reduce((sum, item) => sum + (item.product.oldPrice - item.product.price) * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ addItem, decrementItem, removeItem, openCart: () => setIsOpen(true), closeCart: () => setIsOpen(false), totalItems }}>
+    <CartContext.Provider value={{ addItem: addOneUnitOfProduct, decrementItem: removeOneUnitOfProduct, removeItem: removeProductLineFromCart, openCart: () => setIsOpen(true), closeCart: () => setIsOpen(false), totalItems }}>
       {children}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent>
@@ -130,17 +132,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                         <strong className="ml-2 text-base text-white">{formatCurrency(product.price)}</strong>
                       </div>
                     </div>
-                    <Button variant="ghost" size="icon-sm" className="button-clear-hover self-start rounded-lg p-2 text-sky-100/50 hover:bg-white hover:text-red-500" onClick={() => removeItem(product.id)} aria-label={`Remover ${product.name}`}>
+                    <Button variant="ghost" size="icon-sm" className="button-clear-hover self-start rounded-lg p-2 text-sky-100/50 hover:bg-white hover:text-red-500" onClick={() => removeProductLineFromCart(product.id)} aria-label={`Remover ${product.name}`}>
                       <Trash2 className="size-4" />
                     </Button>
                   </div>
                   <div className="mt-3 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2 rounded-full border border-slate-700 p-1">
-                      <Button variant="ghost" size="icon-sm" className="button-clear-hover size-7 rounded-full text-white hover:bg-white hover:text-slate-950" onClick={() => decrementItem(product.id)} aria-label="Diminuir quantidade">
+                      <Button variant="ghost" size="icon-sm" className="button-clear-hover size-7 rounded-full text-white hover:bg-white hover:text-slate-950" onClick={() => removeOneUnitOfProduct(product.id)} aria-label="Diminuir quantidade">
                         <Minus className="size-3.5" />
                       </Button>
                       <span className="w-6 text-center text-sm font-black text-white">{quantity}</span>
-                      <Button variant="ghost" size="icon-sm" className="button-clear-hover size-7 rounded-full text-white hover:bg-white hover:text-slate-950" onClick={() => addItem(product.id)} aria-label="Aumentar quantidade">
+                      <Button variant="ghost" size="icon-sm" className="button-clear-hover size-7 rounded-full text-white hover:bg-white hover:text-slate-950" onClick={() => addOneUnitOfProduct(product.id)} aria-label="Aumentar quantidade">
                         <Plus className="size-3.5" />
                       </Button>
                     </div>

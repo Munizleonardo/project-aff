@@ -15,12 +15,12 @@ export function ProductPrice({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-sm text-slate-400 line-through">{formatCurrency(oldPrice)}</span>
+      <span className="text-xs text-slate-400 line-through sm:text-sm">{formatCurrency(oldPrice)}</span>
       <div className="flex items-center gap-2">
-        <strong className={`${large ? "text-3xl md:text-4xl" : "text-2xl"} font-black tracking-tight text-white`}>{formatCurrency(price)}</strong>
+        <strong className={`${large ? "text-3xl md:text-4xl" : "text-base min-[380px]:text-lg sm:text-2xl"} font-black tracking-tight text-white`}>{formatCurrency(price)}</strong>
         {large ? <span className="rounded-full bg-red-500 px-3 py-1 text-xs font-black text-white">-{discountPercentage}%</span> : null}
       </div>
-      <span className="text-sm font-medium text-sky-200">{installment.replace("10x de", "ou 10x de").replace("8x de", "ou 8x de").replace("6x de", "ou 6x de")}</span>
+      <span className="text-[11px] font-medium leading-4 text-sky-200 sm:text-sm sm:leading-normal">{installment.replace("10x de", "ou 10x de").replace("8x de", "ou 8x de").replace("6x de", "ou 6x de")}</span>
     </div>
   );
 }

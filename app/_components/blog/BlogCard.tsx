@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Clock } from "lucide-react";
 import { Card, CardContent } from "@/app/_components/ui/card";
-import { BlogPost } from "@/app/_data/blog-posts";
+import { BlogPost } from "@/data/blog-posts";
 
 export function BlogCard({ post }: { post: BlogPost }) {
   return (

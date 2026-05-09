@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/app/_components/Header";
-import { Footer } from "@/app/_components/Footer";
+import { Header } from "@/app/_components/layout/Header";
+import { Footer } from "@/app/_components/layout/Footer";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
 import { Input } from "@/app/_components/ui/input";

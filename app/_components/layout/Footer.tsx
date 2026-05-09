@@ -50,7 +50,7 @@ const institutionalLinks = [
 export function Footer() {
   return (
     <footer className="border-t border-[#1b2638] bg-[#080f1d] text-[#9db7d5]">
-      <div className="mx-auto grid max-w-[1232px] gap-10 px-4 py-12 md:grid-cols-[1.25fr_1fr_1.25fr_1.35fr] md:gap-20">
+      <div className="mx-auto grid max-w-[1232px] gap-9 px-4 py-10 sm:grid-cols-2 md:grid-cols-[1.25fr_1fr_1.25fr_1.35fr] md:gap-16 md:py-12">
         <div className="flex flex-col items-start gap-5">
           <Logo />
           <p className="max-w-[265px] text-sm leading-6">
@@ -86,7 +86,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 sm:col-span-2 md:col-span-1">
           <h2 className="text-xs font-normal uppercase tracking-wide text-white" style={{ fontFamily: '"Roboto Mono", "SFMono-Regular", Consolas, monospace' }}>Aviso de comissão</h2>
           <p className="max-w-[310px] text-xs leading-6 text-[#9db7d5]">
             Este site pode receber comissão por compras realizadas através dos links divulgados. A compra é finalizada diretamente no marketplace parceiro de forma segura, sem custo adicional para você.
@@ -95,7 +95,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-[#1b2638]">
-        <div className="mx-auto flex max-w-[1232px] flex-col gap-3 px-4 py-5 text-xs text-[#8fb0d2] md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-[1232px] flex-col gap-3 px-4 py-5 text-center text-xs text-[#8fb0d2] md:flex-row md:items-center md:justify-between md:text-left">
           <span>© 2026 TechParks. Todos os direitos reservados.</span>
           <span>Feito com 💙 para apaixonados por tech.</span>
         </div>
