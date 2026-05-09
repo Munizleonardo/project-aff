@@ -3,18 +3,19 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/app/_components/layout/Footer";
 import { Header } from "@/app/_components/layout/Header";
 import { ProductGrid } from "@/app/_components/product/ProductGrid";
-import { categories, getCategoryBySlug } from "@/data/categories";
+import { getCategories, getCategoryBySlug } from "@/data/categories";
 import { getProductsByDepartment } from "@/data/products";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const categories = await getCategories();
   return categories.map((category) => ({ slug: category.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
   if (!category) return { title: "Categoria nao encontrada" };
   return {
     title: `${category.name}: melhores produtos, reviews e ofertas`,
@@ -25,9 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
   if (!category) notFound();
-  const categoryProducts = getProductsByDepartment(slug);
+  const categoryProducts = await getProductsByDepartment(slug);
   const Icon = category.icon;
 
   return (

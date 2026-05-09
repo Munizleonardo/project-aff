@@ -19,7 +19,7 @@ export function FloatingSearchPanel({ open, onToggle }: { open: boolean; onToggl
         <Search className="size-5" />
       </Button>
       {open ? (
-        <div className="absolute right-full top-0 mr-3 w-[360px] rounded-2xl border border-slate-700/70 bg-[#07101f]/95 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl">
+        <div className="floating-nav-panel absolute right-full top-0 mr-3 w-[360px] rounded-2xl border border-slate-700/70 bg-[#07101f]/95 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl">
           <SearchBar compact />
         </div>
       ) : null}

@@ -8,15 +8,23 @@ import { HeroSection } from "@/app/_components/marketing/HeroSection";
 import { DepartmentHighlights } from "@/app/_components/marketing/DepartmentHighlights";
 import { ProductGrid } from "@/app/_components/product/ProductGrid";
 import { Badge } from "@/app/_components/ui/badge";
-import { featuredProducts, topProducts } from "@/data/products";
+import { getFeaturedProducts, getTopProducts } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Ofertas tech, gadgets e setup com curadoria inteligente",
-  description: "Compare produtos tech, veja rankings, avaliações simuladas e acesse ofertas em marketplaces parceiros por rotas internas de oferta.",
+  description: "Compare produtos tech, veja rankings, avaliações e acesse ofertas em marketplaces parceiros por rotas internas de oferta.",
   alternates: { canonical: "/" },
 };
 
-export default function Home() {
+export default async function Home() {
+  const [featuredProducts, topProducts] = await Promise.all([
+    getFeaturedProducts(8),
+    getTopProducts(16),
+  ]);
+
+  const selectedOfferProducts =
+    topProducts.length > 8 ? topProducts.slice(8, 16) : topProducts.slice(0, Math.min(8, topProducts.length));
+
   return (
     <>
       <Header />
@@ -48,7 +56,7 @@ export default function Home() {
             <h2 className="text-[1.75rem] font-black leading-tight text-white md:text-4xl">Ofertas <span className="text-cyan-400">selecionadas</span></h2>
             <p className="text-sky-100/75">Uma vitrine escalável para destacar tendências, CTR e conversões estimadas no futuro.</p>
           </div>
-          <ProductGrid products={topProducts.slice(7, 15)} />
+          <ProductGrid products={selectedOfferProducts} />
         </section>
         <section className="px-4 py-10 md:py-20">
           <CTASection />

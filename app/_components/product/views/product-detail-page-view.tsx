@@ -1,46 +1,20 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
-import { Check, ExternalLink, Heart, Info, Star, Trophy, Eye, Sparkles, TrendingUp } from "lucide-react";
+import { Check, ExternalLink, Eye, Info, Sparkles, Star, TrendingUp, Trophy } from "lucide-react";
 import { AddToCartButton } from "@/app/_components/cart/AddToCartButton";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
 import { ProductCard } from "@/app/_components/product/ProductCard";
+import { SaveToBoxButton } from "@/app/_components/product/SaveToBoxButton";
 import type { Product } from "@/data/products";
 import { formatCurrency } from "@/app/_lib/format";
 
 const PDP_CHOICE_REASON_HIGHLIGHTS: Array<{ label: string; Icon: LucideIcon; iconColorClassName: string }> = [
-  { label: "Melhor preço", Icon: Trophy, iconColorClassName: "text-emerald-400" },
-  { label: "Custo-benefício", Icon: TrendingUp, iconColorClassName: "text-cyan-400" },
+  { label: "Melhor preco", Icon: Trophy, iconColorClassName: "text-emerald-400" },
+  { label: "Custo-beneficio", Icon: TrendingUp, iconColorClassName: "text-cyan-400" },
   { label: "Mais acessado", Icon: Eye, iconColorClassName: "text-amber-400" },
   { label: "Melhor avaliado", Icon: Sparkles, iconColorClassName: "text-violet-400" },
 ];
-
-const PDP_RATING_BREAKDOWN_ROWS: Array<{ starsLabel: string; barFillWidthClassName: string }> = [
-  { starsLabel: "5", barFillWidthClassName: "w-[78%]" },
-  { starsLabel: "4", barFillWidthClassName: "w-[34%]" },
-  { starsLabel: "3", barFillWidthClassName: "w-[5%]" },
-  { starsLabel: "2", barFillWidthClassName: "w-[4%]" },
-  { starsLabel: "1", barFillWidthClassName: "w-[5%]" },
-];
-
-/** Depoimentos estáticos exibidos na seção social proof (protótipo). */
-const PDP_SAMPLE_PURCHASER_REVIEWS = [
-  {
-    authorName: "Lucas M.",
-    relativeTimeLabel: "há 3 dias",
-    body: "Produto incrível! Superou todas as minhas expectativas. Entrega rápida e bem embalado.",
-  },
-  {
-    authorName: "Mariana S.",
-    relativeTimeLabel: "há 1 semana",
-    body: "Custo-benefício excelente. Recomendo demais para quem está em dúvida.",
-  },
-  {
-    authorName: "Carlos H.",
-    relativeTimeLabel: "há 2 semanas",
-    body: "Muito bom, só achei o manual confuso. Mas o produto em si é top.",
-  },
-] as const;
 
 type ProductDetailPageViewProps = {
   product: Product;
@@ -78,7 +52,7 @@ export function ProductDetailPageView({
             <div className="flex flex-wrap items-center gap-2 text-sm text-sky-100/70">
               <span className="flex text-amber-400">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className="size-4 fill-amber-400" />)}</span>
               <strong className="text-white">{product.rating.toFixed(1)}</strong>
-              <span>({product.reviewsCount.toLocaleString("pt-BR")} avaliações)</span>
+              <span>({product.reviewsCount.toLocaleString("pt-BR")} avaliacoes)</span>
             </div>
 
             <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4 shadow-xl shadow-black/20 sm:p-5">
@@ -88,7 +62,7 @@ export function ProductDetailPageView({
                   <strong className="mt-1 block text-[2rem] font-black leading-tight text-white md:text-4xl">{formatCurrency(product.price)}</strong>
                   <span className="text-sm text-sky-100/70">{product.installment}</span>
                   <span className="mt-2 block text-xs font-black text-emerald-400">
-                    Você economiza {formatCurrency(priceAdvantageVersusSticker)}
+                    Voce economiza {formatCurrency(priceAdvantageVersusSticker)}
                   </span>
                 </div>
                 <span className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-black text-white">-{product.discountPercentage}%</span>
@@ -101,14 +75,15 @@ export function ProductDetailPageView({
                   productId={product.id}
                   className="h-11 w-full rounded-xl border-slate-800 bg-transparent text-sm font-black text-white hover:border-white hover:bg-white hover:text-slate-950"
                 />
-                <Button variant="outline" className="button-clear-hover h-11 w-full rounded-xl border-slate-800 bg-transparent text-sm font-black text-white hover:border-white hover:bg-white hover:text-slate-950">
-                  <Heart className="size-4" /> Adicionar aos favoritos
-                </Button>
+                <SaveToBoxButton
+                  productId={product.id}
+                  className="button-clear-hover h-11 w-full rounded-xl border-slate-800 bg-transparent text-sm font-black text-white hover:border-white hover:bg-white hover:text-slate-950"
+                />
               </div>
               <div className="mt-4 rounded-xl bg-emerald-500/10 p-3 text-xs font-semibold text-emerald-300">
-                <Check className="mr-2 inline size-4" /> Compra segura. Você é redirecionado para o marketplace parceiro para finalizar.
+                <Check className="mr-2 inline size-4" /> Compra segura. Voce e redirecionado para o marketplace parceiro para finalizar.
               </div>
-              <p className="mt-3 text-xs text-sky-100/55"><Info className="mr-1 inline size-3.5" /> Podemos receber comissão por compras realizadas através deste link.</p>
+              <p className="mt-3 text-xs text-sky-100/55"><Info className="mr-1 inline size-3.5" /> Podemos receber comissao por compras realizadas atraves deste link.</p>
             </Card>
 
             <div className="flex flex-col gap-3">
@@ -139,7 +114,7 @@ export function ProductDetailPageView({
 
         <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
           <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4 md:p-6">
-            <h2 className="text-xl font-black text-white md:text-2xl">Descrição completa</h2>
+            <h2 className="text-xl font-black text-white md:text-2xl">Descricao completa</h2>
             <p className="mt-4 leading-7 text-sky-100/70">{product.fullDescription}</p>
             <div className="mt-6 grid gap-5 md:grid-cols-2">
               <div>
@@ -147,13 +122,13 @@ export function ProductDetailPageView({
                 <ul className="mt-3 flex flex-col gap-2 text-sm text-sky-100/80">{product.pros.slice(0, 3).map((item) => <li key={item}>+ {item}</li>)}</ul>
               </div>
               <div>
-                <h3 className="text-sm font-black uppercase text-amber-400">Pontos de atenção</h3>
+                <h3 className="text-sm font-black uppercase text-amber-400">Pontos de atencao</h3>
                 <ul className="mt-3 flex flex-col gap-2 text-sm text-sky-100/80">{product.cons.slice(0, 3).map((item) => <li key={item}>! {item}</li>)}</ul>
               </div>
             </div>
           </Card>
           <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4 md:p-6">
-            <h2 className="text-xl font-black text-white">Especificações técnicas</h2>
+            <h2 className="text-xl font-black text-white">Especificacoes tecnicas</h2>
             <div className="mt-5 flex flex-col gap-3">
               {Object.entries(product.specs).map(([key, value]) => (
                 <div key={key} className="flex flex-col gap-1 border-b border-slate-800 pb-3 text-sm min-[420px]:flex-row min-[420px]:justify-between min-[420px]:gap-4">
@@ -167,38 +142,37 @@ export function ProductDetailPageView({
 
         <Card asChild className="rounded-2xl border-slate-800 bg-[#07101f] p-4 md:p-6">
           <section>
-            <h2 className="text-xl font-black text-white md:text-2xl">Avaliações de quem comprou</h2>
+            <h2 className="text-xl font-black text-white md:text-2xl">Avaliacoes de quem comprou</h2>
             <div className="mt-6 grid gap-5 md:grid-cols-[110px_1fr] md:gap-6">
               <div>
                 <strong className="text-5xl font-black text-cyan-400">{product.rating.toFixed(1)}</strong>
                 <div className="mt-1 flex text-amber-400">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className="size-4 fill-amber-400" />)}</div>
-                <span className="text-xs text-sky-100/60">{product.reviewsCount.toLocaleString("pt-BR")} avaliações</span>
+                <span className="text-xs text-sky-100/60">{product.reviewsCount.toLocaleString("pt-BR")} avaliacoes</span>
               </div>
-              <div className="flex flex-col gap-2">
-                {PDP_RATING_BREAKDOWN_ROWS.map(({ starsLabel, barFillWidthClassName }) => (
-                  <div key={starsLabel} className="flex items-center gap-2 text-xs text-sky-100/60 sm:gap-3">
-                    <span>{starsLabel}★</span>
-                    <span className="h-2 flex-1 rounded-full bg-slate-800">
-                      <span className={`block h-full rounded-full bg-amber-400 ${barFillWidthClassName}`} />
-                    </span>
-                  </div>
+              <div className="flex min-h-24 items-center rounded-xl border border-slate-800 bg-slate-950/30 p-4 text-sm leading-6 text-sky-100/65">
+                Avaliacoes e depoimentos sao carregados da tabela de reviews do banco.
+              </div>
+            </div>
+            {product.reviews.length > 0 ? (
+              <div className="mt-6 flex flex-col gap-3">
+                {product.reviews.map(({ authorName, rating, publishedAt, body }) => (
+                  <Card key={`${authorName}-${publishedAt}`} className="rounded-xl border-slate-800 p-4">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <strong className="text-white">{authorName}</strong>
+                        <div className="flex text-amber-400">
+                          {Array.from({ length: 5 }).map((_, star) => (
+                            <Star key={star} className={`size-3 ${star < Math.round(rating) ? "fill-amber-400" : "fill-transparent text-slate-500"}`} />
+                          ))}
+                        </div>
+                      </div>
+                      <span className="text-xs text-sky-100/50">{new Date(publishedAt).toLocaleDateString("pt-BR")}</span>
+                    </div>
+                    <p className="mt-2 text-sm text-sky-100/70">{body}</p>
+                  </Card>
                 ))}
               </div>
-            </div>
-            <div className="mt-6 flex flex-col gap-3">
-              {PDP_SAMPLE_PURCHASER_REVIEWS.map(({ authorName, relativeTimeLabel, body }) => (
-                <Card key={authorName} className="rounded-xl border-slate-800 p-4">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <strong className="text-white">{authorName}</strong>
-                      <div className="flex text-amber-400">{Array.from({ length: 5 }).map((_, star) => <Star key={star} className="size-3 fill-amber-400" />)}</div>
-                    </div>
-                    <span className="text-xs text-sky-100/50">{relativeTimeLabel}</span>
-                  </div>
-                  <p className="mt-2 text-sm text-sky-100/70">{body}</p>
-                </Card>
-              ))}
-            </div>
+            ) : null}
           </section>
         </Card>
 

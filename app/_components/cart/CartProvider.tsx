@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Minus, Plus, ShoppingCart, Trash2, X } from "lucide-react";
-import { products } from "@/data/products";
+import type { Product } from "@/data/products";
 import { formatCurrency } from "@/app/_lib/format";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
@@ -45,7 +45,24 @@ export function useCart() {
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(parseCartItemsFromBrowserStorage);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    let shouldIgnoreResult = false;
+    fetch("/api/products")
+      .then((response) => response.ok ? response.json() as Promise<Product[]> : [])
+      .then((items) => {
+        if (!shouldIgnoreResult) setProducts(items);
+      })
+      .catch(() => {
+        if (!shouldIgnoreResult) setProducts([]);
+      });
+
+    return () => {
+      shouldIgnoreResult = true;
+    };
+  }, []);
 
   /** Atualiza estado React + `localStorage` com uma cópia canônica do carrinho. */
   function replaceCartItemsAndPersistToStorage(nextItems: CartItem[]) {
@@ -79,7 +96,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         return product ? { ...item, product } : null;
       })
       .filter(Boolean) as Array<CartItem & { product: (typeof products)[number] }>;
-  }, [items]);
+  }, [items, products]);
 
   const totalItems = cartProducts.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = cartProducts.reduce((sum, item) => sum + item.product.price * item.quantity, 0);

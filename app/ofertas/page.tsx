@@ -3,7 +3,7 @@ import { Tag } from "lucide-react";
 import { Footer } from "@/app/_components/layout/Footer";
 import { Header } from "@/app/_components/layout/Header";
 import { ProductGrid } from "@/app/_components/product/ProductGrid";
-import { products } from "@/data/products";
+import { getProducts } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Ofertas tech com desconto",
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/ofertas" },
 };
 
-export default function OffersPage() {
+export default async function OffersPage() {
+  const products = await getProducts();
+
   return (
     <>
       <Header />

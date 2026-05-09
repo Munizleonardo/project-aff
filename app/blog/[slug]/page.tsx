@@ -3,18 +3,19 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/app/_components/layout/Footer";
 import { Header } from "@/app/_components/layout/Header";
 import { Card } from "@/app/_components/ui/card";
-import { blogPosts, getBlogPostBySlug } from "@/data/blog-posts";
+import { getBlogPostBySlug, getBlogPosts } from "@/data/blog-posts";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const blogPosts = await getBlogPosts();
   return blogPosts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
-  if (!post) return { title: "Post não encontrado" };
+  const post = await getBlogPostBySlug(slug);
+  if (!post) return { title: "Post nao encontrado" };
   return {
     title: post.title,
     description: post.excerpt,
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug);
   if (!post) notFound();
   const articleSchema = {
     "@context": "https://schema.org",
@@ -47,8 +48,9 @@ export default async function BlogPostPage({ params }: Props) {
         <h1 className="text-3xl font-black leading-tight text-white md:text-4xl">{post.title}</h1>
         <p className="text-base leading-7 text-slate-300 md:text-lg md:leading-8">{post.excerpt}</p>
         <Card className="prose prose-invert max-w-none rounded-xl border-white/10 bg-white/[0.04] p-4 text-slate-300 md:p-6">
-          <p>Este guia mostra critérios práticos para avaliar preço, durabilidade, usabilidade e real ganho de produtividade antes da compra.</p>
-          <p>Em um portal maduro, este conteúdo pode receber comparativos automáticos, alertas de preço, FAQs e links internos por intenção de busca.</p>
+          {post.body.split("\n").filter(Boolean).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </Card>
       </main>
       <Footer />

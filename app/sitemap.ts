@@ -1,11 +1,16 @@
 import type { MetadataRoute } from "next";
-import { blogPosts } from "@/data/blog-posts";
-import { categories } from "@/data/categories";
-import { products } from "@/data/products";
+import { getBlogPosts } from "@/data/blog-posts";
+import { getCategories } from "@/data/categories";
+import { getProducts } from "@/data/products";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://techparks.example";
-  const staticRoutes = ["", "/departamentos", "/ofertas", "/mais-acessados", "/blog", "/comparativos", "/login", "/cadastro", "/politica-de-privacidade", "/termos-de-uso"];
+  const [blogPosts, categories, products] = await Promise.all([
+    getBlogPosts(),
+    getCategories(),
+    getProducts(),
+  ]);
+  const staticRoutes = ["", "/departamentos", "/ofertas", "/mais-acessados", "/blog", "/comparativos", "/login", "/cadastro", "/politica-de-privacidade", "/termos-de-uso", "/termos-e-condicoes"];
   const now = new Date();
   return [
     ...staticRoutes.map((route) => ({ url: `${baseUrl}${route}`, lastModified: now, changeFrequency: "weekly" as const, priority: route === "" ? 1 : 0.7 })),

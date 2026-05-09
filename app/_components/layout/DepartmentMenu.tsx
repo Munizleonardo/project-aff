@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Card } from "@/app/_components/ui/card";
-import { departments } from "@/data/departments";
+import type { Category } from "@/data/categories";
 
-export function DepartmentMenu() {
+export function DepartmentMenu({ departments }: { departments: Category[] }) {
   return (
     <div className="absolute left-0 top-full z-40 hidden w-[760px] max-w-[calc(100vw-2rem)] pt-3 group-hover:block">
       <Card className="grid grid-cols-2 gap-3 rounded-xl border-white/10 bg-slate-950/95 p-4 shadow-2xl shadow-cyan-950/40 backdrop-blur md:grid-cols-3">

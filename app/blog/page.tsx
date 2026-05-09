@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogCard } from "@/app/_components/blog/BlogCard";
 import { Footer } from "@/app/_components/layout/Footer";
 import { Header } from "@/app/_components/layout/Header";
-import { blogPosts } from "@/data/blog-posts";
+import { getBlogPosts } from "@/data/blog-posts";
 
 export const metadata: Metadata = {
   title: "Blog tech, reviews e guias de compra",
@@ -10,7 +10,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/blog" },
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogPosts = await getBlogPosts();
+
   return (
     <>
       <Header />

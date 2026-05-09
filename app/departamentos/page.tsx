@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Footer } from "@/app/_components/layout/Footer";
 import { Header } from "@/app/_components/layout/Header";
 import { Card } from "@/app/_components/ui/card";
-import { departments } from "@/data/departments";
+import { getDepartments } from "@/data/departments";
 
 export const metadata: Metadata = {
   title: "Departamentos tech",
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/departamentos" },
 };
 
-export default function DepartmentsPage() {
+export default async function DepartmentsPage() {
+  const departments = await getDepartments();
+
   return (
     <>
       <Header />

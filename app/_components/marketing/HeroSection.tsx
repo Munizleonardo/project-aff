@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
-import { topProducts } from "@/data/products";
+import { getTopProducts, type Product } from "@/data/products";
 import { formatCurrency } from "@/app/_lib/format";
 
 /** Carrosséis verticais duplicados (`hero-offers-track-*`) com destaques de `topProducts`. */
-function HeroOffersDualColumnMarquee() {
-  const leftProducts = topProducts.slice(0, 8);
-  const rightProducts = [...topProducts.slice(4, 8), ...topProducts.slice(0, 4)];
+function HeroOffersDualColumnMarquee({ products }: { products: Product[] }) {
+  const leftProducts = products.slice(0, 8);
+  const rightProducts = [...products.slice(4, 8), ...products.slice(0, 4)];
   const columns: Array<{
     direction: "down" | "up";
-    products: typeof topProducts;
+    products: Product[];
   }> = [
     { direction: "down", products: leftProducts },
     { direction: "up", products: rightProducts },
@@ -56,7 +56,9 @@ function HeroOffersDualColumnMarquee() {
   );
 }
 
-export function HeroSection() {
+export async function HeroSection() {
+  const topProducts = await getTopProducts(8);
+
   return (
     <section className="hero-section relative overflow-hidden bg-[#030711]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_90%,rgba(126,34,206,0.28),transparent_38%),radial-gradient(circle_at_88%_18%,rgba(14,165,233,0.22),transparent_28%),linear-gradient(120deg,#030711_0%,#090817_52%,#08203a_100%)]" />
@@ -83,10 +85,10 @@ export function HeroSection() {
             <div className="hero-trust flex flex-wrap gap-3 pt-2 text-xs font-medium text-sky-100/70 sm:gap-6 sm:text-sm">
               <span className="flex items-center gap-2"><ShieldCheck className="size-4 text-emerald-400" /> Marketplaces seguros</span>
               <span className="flex items-center gap-2"><Zap className="size-4 text-amber-400" /> Atualizado diariamente</span>
-              <span className="flex items-center gap-2"><BadgeCheck className="size-4 text-cyan-400" /> +15.000 produtos</span>
+              <span className="flex items-center gap-2"><BadgeCheck className="size-4 text-cyan-400" /> +15.000 produtos no radar</span>
             </div>
           </div>
-          <HeroOffersDualColumnMarquee />
+          <HeroOffersDualColumnMarquee products={topProducts} />
         </div>
       </div>
     </section>

@@ -1,7 +1,18 @@
+import { supabaseSelect } from "@/app/_lib/supabase-rest";
+
 export type ProductVideo = {
   title: string;
   thumbnail: string;
   duration: string;
+  url?: string | null;
+};
+
+export type ProductReview = {
+  authorName: string;
+  rating: number;
+  body: string;
+  publishedAt: string;
+  isVerifiedPurchase: boolean;
 };
 
 export type Product = {
@@ -27,412 +38,95 @@ export type Product = {
   pros: string[];
   cons: string[];
   videos: ProductVideo[];
+  reviews: ProductReview[];
   featured?: boolean;
 };
 
-const images = {
-  desk: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
-  monitor: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=900&q=80",
-  headphone: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
-  keyboard: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
-  chair: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=900&q=80",
-  laptop: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",
-  phone: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=900&q=80",
-  smart: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=900&q=80",
-  speaker: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=900&q=80",
-  webcam: "https://images.unsplash.com/photo-1587614295999-6c1c1367515d?auto=format&fit=crop&w=900&q=80",
-};
+function normalizeProduct(product: Product): Product {
+  return {
+    ...product,
+    gallery: product.gallery?.length ? product.gallery : [product.image].filter(Boolean),
+    tags: product.tags ?? [],
+    specs: product.specs ?? {},
+    pros: product.pros ?? [],
+    cons: product.cons ?? [],
+    videos: product.videos ?? [],
+    reviews: product.reviews ?? [],
+    oldPrice: Number(product.oldPrice ?? 0),
+    price: Number(product.price ?? 0),
+    discountPercentage: Number(product.discountPercentage ?? 0),
+    rating: Number(product.rating ?? 0),
+    reviewsCount: Number(product.reviewsCount ?? 0),
+    clicks: Number(product.clicks ?? 0),
+  };
+}
 
-const commonPros = ["Boa relacao entre preco e entrega", "Instalacao simples", "Design moderno para setups premium"];
-const commonCons = ["Preco pode variar entre marketplaces", "Disponibilidade depende do parceiro"];
+export async function getProducts(): Promise<Product[]> {
+  const products = await supabaseSelect<Product>(
+    "product_catalog",
+    { select: "*", order: "featured.desc,clicks.desc,name.asc" },
+    { revalidate: 60 }
+  );
+  return products.map(normalizeProduct);
+}
 
-export const products: Product[] = [
-  {
-    id: "p001",
-    name: "Monitor OrbitView 34 Ultrawide 165Hz",
-    slug: "monitor-orbitview-34-ultrawide-165hz",
-    shortDescription: "Tela curva ultrawide para multitarefa, jogos imersivos e produtividade.",
-    fullDescription: "O OrbitView 34 combina formato ultrawide, alta taxa de atualizacao e boa fidelidade de cores. E indicado para quem alterna entre planilhas, edicao, chamadas e jogos sem querer usar duas telas.",
-    category: "Monitores",
-    department: "monitores",
-    image: images.monitor,
-    gallery: [images.monitor, images.desk, images.laptop],
-    oldPrice: 2899.9,
-    price: 2199.9,
-    installment: "10x de R$ 219,99",
-    discountPercentage: 24,
-    rating: 4.8,
-    reviewsCount: 842,
-    clicks: 18342,
-    affiliateUrl: "https://marketplace.example/oferta/monitor-orbitview",
-    tags: ["ultrawide", "165hz", "vale a pena"],
-    specs: { Tela: "34 polegadas", Resolucao: "3440x1440", Frequencia: "165Hz", Conexoes: "HDMI, DisplayPort, USB-C" },
-    pros: ["Excelente area util", "Boa fluidez em jogos", ...commonPros],
-    cons: ["Ocupa bastante espaco na mesa", ...commonCons],
-    videos: [{ title: "Review completo do OrbitView 34", thumbnail: images.monitor, duration: "12:40" }],
-    featured: true,
-  },
-  {
-    id: "p002",
-    name: "Teclado Mecânico NovaKeys Pro Wireless",
-    slug: "teclado-mecanico-novakeys-pro-wireless",
-    shortDescription: "Teclado compacto, sem fio e hot-swap para jogos e escrita intensa.",
-    fullDescription: "O NovaKeys Pro entrega construcao rigida, switches trocaveis e conexao multiponto. E uma escolha equilibrada para quem quer mesa limpa e resposta rapida.",
-    category: "Perifericos",
-    department: "perifericos",
-    image: images.keyboard,
-    gallery: [images.keyboard, images.desk, images.monitor],
-    oldPrice: 699.9,
-    price: 449.9,
-    installment: "8x de R$ 56,24",
-    discountPercentage: 36,
-    rating: 4.7,
-    reviewsCount: 534,
-    clicks: 16880,
-    affiliateUrl: "https://marketplace.example/oferta/novakeys",
-    tags: ["wireless", "mecanico", "hot-swap"],
-    specs: { Layout: "75%", Conexao: "Bluetooth, 2.4GHz, USB-C", Bateria: "4000mAh", Switches: "Lineares hot-swap" },
-    pros: ["Otimo som de digitacao", "Baixa latencia", ...commonPros],
-    cons: ["Sem teclado numerico", ...commonCons],
-    videos: [{ title: "Som e teste de latencia", thumbnail: images.keyboard, duration: "08:10" }],
-    featured: true,
-  },
-  {
-    id: "p003",
-    name: "Headset PulseAir ANC 2",
-    slug: "headset-pulseair-anc-2",
-    shortDescription: "Fone com cancelamento ativo, microfone limpo e bateria longa.",
-    fullDescription: "O PulseAir ANC 2 foi pensado para chamadas, foco e entretenimento. O cancelamento ativo reduz ruidos repetitivos e o microfone destaca a voz em reunioes.",
-    category: "Audio",
-    department: "audio",
-    image: images.headphone,
-    gallery: [images.headphone, images.desk, images.speaker],
-    oldPrice: 899.9,
-    price: 579.9,
-    installment: "10x de R$ 57,99",
-    discountPercentage: 36,
-    rating: 4.6,
-    reviewsCount: 915,
-    clicks: 15420,
-    affiliateUrl: "https://marketplace.example/oferta/pulseair",
-    tags: ["anc", "home office", "audio"],
-    specs: { Bateria: "42 horas", Codec: "AAC/SBC", Microfone: "duplo com reducao de ruido", Peso: "245g" },
-    pros: ["Confortavel por horas", "Boa captacao de voz", ...commonPros],
-    cons: ["Estojo nao e rigido", ...commonCons],
-    videos: [{ title: "Teste de microfone em chamada", thumbnail: images.headphone, duration: "06:35" }],
-    featured: true,
-  },
-  {
-    id: "p004",
-    name: "Cadeira ErgoFrame X Mesh",
-    slug: "cadeira-ergoframe-x-mesh",
-    shortDescription: "Cadeira ergonomica com apoio lombar, mesh respiravel e ajustes finos.",
-    fullDescription: "A ErgoFrame X e focada em longas jornadas de trabalho. Tem encosto respiravel, apoio lombar regulavel e bracos ajustaveis para reduzir tensao no dia a dia.",
-    category: "Home Office",
-    department: "home-office",
-    image: images.chair,
-    gallery: [images.chair, images.desk, images.monitor],
-    oldPrice: 1499.9,
-    price: 1049.9,
-    installment: "10x de R$ 104,99",
-    discountPercentage: 30,
-    rating: 4.5,
-    reviewsCount: 406,
-    clicks: 14301,
-    affiliateUrl: "https://marketplace.example/oferta/ergoframe",
-    tags: ["ergonomia", "home office", "conforto"],
-    specs: { Material: "Mesh", Ajustes: "lombar, altura, bracos", PesoSuportado: "130kg", Garantia: "24 meses" },
-    pros: ["Boa ventilacao", "Ajustes relevantes", ...commonPros],
-    cons: ["Montagem exige atencao", ...commonCons],
-    videos: [{ title: "Montagem e ajustes da ErgoFrame", thumbnail: images.chair, duration: "09:21" }],
-    featured: true,
-  },
-  {
-    id: "p005",
-    name: "Notebook AlloyBook 14 Evo",
-    slug: "notebook-alloybook-14-evo",
-    shortDescription: "Notebook leve com tela 2.8K, boa bateria e performance para produtividade.",
-    fullDescription: "O AlloyBook 14 Evo e voltado para profissionais que precisam de mobilidade, tela nitida e desempenho consistente em tarefas de escritorio, navegacao e edicao leve.",
-    category: "Notebooks",
-    department: "notebooks",
-    image: images.laptop,
-    gallery: [images.laptop, images.desk, images.monitor],
-    oldPrice: 5999.9,
-    price: 4599.9,
-    installment: "10x de R$ 459,99",
-    discountPercentage: 23,
-    rating: 4.8,
-    reviewsCount: 281,
-    clicks: 13970,
-    affiliateUrl: "https://marketplace.example/oferta/alloybook",
-    tags: ["notebook", "produtividade", "custo-beneficio"],
-    specs: { Processador: "Intel Core Ultra 5", Memoria: "16GB", SSD: "1TB", Tela: "14 pol 2.8K" },
-    pros: ["Leve e bem acabado", "Tela acima da media", ...commonPros],
-    cons: ["Nao e focado em jogos pesados", ...commonCons],
-    videos: [{ title: "AlloyBook 14 vale a pena?", thumbnail: images.laptop, duration: "14:02" }],
-    featured: true,
-  },
-  {
-    id: "p006",
-    name: "Smartphone PixelWave A9 5G",
-    slug: "smartphone-pixelwave-a9-5g",
-    shortDescription: "Smartphone 5G com cameras consistentes e tela AMOLED fluida.",
-    fullDescription: "O PixelWave A9 oferece tela AMOLED, boa autonomia e cameras confiaveis. E uma opcao forte para quem quer equilibrio sem pagar por extras pouco usados.",
-    category: "Smartphones",
-    department: "smartphones",
-    image: images.phone,
-    gallery: [images.phone, images.laptop, images.headphone],
-    oldPrice: 3299.9,
-    price: 2499.9,
-    installment: "10x de R$ 249,99",
-    discountPercentage: 24,
-    rating: 4.7,
-    reviewsCount: 1204,
-    clicks: 12990,
-    affiliateUrl: "https://marketplace.example/oferta/pixelwave",
-    tags: ["5g", "camera", "desconto"],
-    specs: { Tela: "AMOLED 120Hz", Armazenamento: "256GB", Bateria: "5000mAh", Camera: "50MP OIS" },
-    pros: ["Tela excelente", "Camera estavel", ...commonPros],
-    cons: ["Carregador pode variar por loja", ...commonCons],
-    videos: [{ title: "Camera e bateria na pratica", thumbnail: images.phone, duration: "11:18" }],
-    featured: true,
-  },
-  {
-    id: "p007",
-    name: "Hub DockStation 12 em 1 USB-C",
-    slug: "hub-dockstation-12-em-1-usb-c",
-    shortDescription: "Dock USB-C com HDMI, rede, leitor SD e carregamento pass-through.",
-    fullDescription: "A DockStation 12 em 1 transforma notebooks compactos em estações de trabalho completas, com conexoes para monitor, rede cabeada, cartoes e perifericos.",
-    category: "Acessorios",
-    department: "acessorios",
-    image: images.desk,
-    gallery: [images.desk, images.laptop, images.monitor],
-    oldPrice: 499.9,
-    price: 299.9,
-    installment: "6x de R$ 49,98",
-    discountPercentage: 40,
-    rating: 4.6,
-    reviewsCount: 733,
-    clicks: 11812,
-    affiliateUrl: "https://marketplace.example/oferta/dockstation",
-    tags: ["usb-c", "hub", "home office"],
-    specs: { Portas: "12", Video: "HDMI 4K", Energia: "PD 100W", Rede: "Gigabit" },
-    pros: ["Resolve conectividade em notebook fino", "Compacto", ...commonPros],
-    cons: ["Pode aquecer em uso intenso", ...commonCons],
-    videos: [{ title: "Como usar a DockStation no setup", thumbnail: images.desk, duration: "05:46" }],
-    featured: true,
-  },
-  {
-    id: "p008",
-    name: "Lâmpada Smart GlowKit RGB",
-    slug: "lampada-smart-glowkit-rgb",
-    shortDescription: "Kit RGB inteligente com cenas, automacoes e controle por voz.",
-    fullDescription: "O GlowKit RGB adiciona iluminacao inteligente a quartos, salas e escritorios. Permite criar cenas de foco, relaxamento e gravacao com poucos toques.",
-    category: "Casa Inteligente",
-    department: "casa-inteligente",
-    image: images.smart,
-    gallery: [images.smart, images.desk, images.speaker],
-    oldPrice: 249.9,
-    price: 159.9,
-    installment: "4x de R$ 39,98",
-    discountPercentage: 36,
-    rating: 4.4,
-    reviewsCount: 612,
-    clicks: 8945,
-    affiliateUrl: "https://marketplace.example/oferta/glowkit",
-    tags: ["rgb", "alexa", "automacao"],
-    specs: { Potencia: "9W", Conexao: "Wi-Fi 2.4GHz", Cores: "16 milhoes", Integracoes: "Alexa, Google" },
-    pros: commonPros,
-    cons: commonCons,
-    videos: [{ title: "Cenas inteligentes para escritorio", thumbnail: images.smart, duration: "04:12" }],
-  },
-  {
-    id: "p009",
-    name: "Mouse AeroClick 8K",
-    slug: "mouse-aeroclick-8k",
-    shortDescription: "Mouse leve com sensor preciso, bateria longa e polling alto.",
-    fullDescription: "O AeroClick 8K e uma boa escolha para jogos competitivos e trabalho preciso. O corpo leve reduz fadiga e a conexao wireless tem baixa latencia.",
-    category: "Perifericos",
-    department: "perifericos",
-    image: images.desk,
-    gallery: [images.desk, images.keyboard, images.monitor],
-    oldPrice: 549.9,
-    price: 349.9,
-    installment: "7x de R$ 49,98",
-    discountPercentage: 36,
-    rating: 4.7,
-    reviewsCount: 489,
-    clicks: 7920,
-    affiliateUrl: "https://marketplace.example/oferta/aeroclick",
-    tags: ["mouse gamer", "8k", "wireless"],
-    specs: { Peso: "58g", Sensor: "26000 DPI", Conexao: "2.4GHz/USB-C", Bateria: "90 horas" },
-    pros: commonPros,
-    cons: commonCons,
-    videos: [{ title: "Teste do sensor AeroClick", thumbnail: images.desk, duration: "07:04" }],
-  },
-  {
-    id: "p010",
-    name: "Webcam StudioCam 4K",
-    slug: "webcam-studiocam-4k",
-    shortDescription: "Webcam 4K com enquadramento automatico para reunioes e criacao.",
-    fullDescription: "A StudioCam 4K melhora chamadas, aulas e gravacoes. Tem bom alcance dinamico, microfones integrados e modo de enquadramento automatico.",
-    category: "Home Office",
-    department: "home-office",
-    image: images.webcam,
-    gallery: [images.webcam, images.desk, images.laptop],
-    oldPrice: 799.9,
-    price: 529.9,
-    installment: "10x de R$ 52,99",
-    discountPercentage: 34,
-    rating: 4.5,
-    reviewsCount: 238,
-    clicks: 7140,
-    affiliateUrl: "https://marketplace.example/oferta/studiocam",
-    tags: ["webcam", "4k", "reuniao"],
-    specs: { Resolucao: "4K", FPS: "30fps", Microfone: "duplo", Recursos: "auto framing" },
-    pros: commonPros,
-    cons: commonCons,
-    videos: [{ title: "Imagem em sala clara e escura", thumbnail: images.webcam, duration: "06:01" }],
-  },
-  {
-    id: "p011",
-    name: "Caixa SoundCube Mini",
-    slug: "caixa-soundcube-mini",
-    shortDescription: "Caixa Bluetooth compacta com som encorpado e resistencia a respingos.",
-    fullDescription: "A SoundCube Mini combina portabilidade e som cheio para mesa, quarto ou pequenas reunioes. A bateria aguenta um dia de uso moderado.",
-    category: "Audio",
-    department: "audio",
-    image: images.speaker,
-    gallery: [images.speaker, images.smart, images.headphone],
-    oldPrice: 399.9,
-    price: 249.9,
-    installment: "5x de R$ 49,98",
-    discountPercentage: 38,
-    rating: 4.4,
-    reviewsCount: 806,
-    clicks: 6901,
-    affiliateUrl: "https://marketplace.example/oferta/soundcube",
-    tags: ["bluetooth", "audio", "portatil"],
-    specs: { Potencia: "20W", Bateria: "18 horas", Protecao: "IPX5", Conexao: "Bluetooth 5.3" },
-    pros: commonPros,
-    cons: commonCons,
-    videos: [{ title: "Teste de som da SoundCube", thumbnail: images.speaker, duration: "05:20" }],
-  },
-  {
-    id: "p012",
-    name: "Mesa Elevatória FlexDesk Air",
-    slug: "mesa-elevatoria-flexdesk-air",
-    shortDescription: "Mesa eletrica com memoria de altura para alternar sentado e em pe.",
-    fullDescription: "A FlexDesk Air ajuda a criar uma rotina mais ergonomica. A estrutura eletrica permite salvar alturas e alternar posicoes durante o expediente.",
-    category: "Home Office",
-    department: "home-office",
-    image: images.desk,
-    gallery: [images.desk, images.chair, images.monitor],
-    oldPrice: 2299.9,
-    price: 1699.9,
-    installment: "10x de R$ 169,99",
-    discountPercentage: 26,
-    rating: 4.6,
-    reviewsCount: 177,
-    clicks: 6520,
-    affiliateUrl: "https://marketplace.example/oferta/flexdesk",
-    tags: ["mesa", "ergonomia", "setup"],
-    specs: { Ajuste: "72 a 118cm", Memorias: "4", Carga: "80kg", Motor: "eletrico silencioso" },
-    pros: commonPros,
-    cons: commonCons,
-    videos: [{ title: "Setup com mesa elevatoria", thumbnail: images.desk, duration: "08:33" }],
-  },
-  {
-    id: "p013",
-    name: "Controle SmartHub Universal",
-    slug: "controle-smarthub-universal",
-    shortDescription: "Hub infravermelho para controlar TV, ar-condicionado e som pelo celular.",
-    fullDescription: "O SmartHub Universal centraliza controles infravermelhos e habilita automacoes. E util para salas, escritorios e quartos com varios equipamentos.",
-    category: "Casa Inteligente",
-    department: "casa-inteligente",
-    image: images.smart,
-    gallery: [images.smart, images.speaker, images.phone],
-    oldPrice: 199.9,
-    price: 119.9,
-    installment: "3x de R$ 39,96",
-    discountPercentage: 40,
-    rating: 4.3,
-    reviewsCount: 352,
-    clicks: 6022,
-    affiliateUrl: "https://marketplace.example/oferta/smarthub",
-    tags: ["hub", "ir", "automacao"],
-    specs: { Conexao: "Wi-Fi", Alcance: "8m", Integracoes: "Alexa, Google", Energia: "USB" },
-    pros: commonPros,
-    cons: commonCons,
-    videos: [{ title: "Automacoes simples com SmartHub", thumbnail: images.smart, duration: "04:44" }],
-  },
-  {
-    id: "p014",
-    name: "Suporte MagStand Duo",
-    slug: "suporte-magstand-duo",
-    shortDescription: "Carregador e suporte magnetico para smartphone e fones.",
-    fullDescription: "O MagStand Duo organiza a mesa e carrega dispositivos compativeis. E indicado para quem quer menos cabos e visual limpo no setup.",
-    category: "Gadgets",
-    department: "gadgets",
-    image: images.phone,
-    gallery: [images.phone, images.desk, images.smart],
-    oldPrice: 349.9,
-    price: 229.9,
-    installment: "5x de R$ 45,98",
-    discountPercentage: 34,
-    rating: 4.4,
-    reviewsCount: 198,
-    clicks: 5888,
-    affiliateUrl: "https://marketplace.example/oferta/magstand",
-    tags: ["carregador", "magsafe", "setup"],
-    specs: { Potencia: "15W", Portas: "USB-C", Material: "aluminio", Compatibilidade: "Qi/Magnetico" },
-    pros: commonPros,
-    cons: commonCons,
-    videos: [{ title: "Organizando a mesa com MagStand", thumbnail: images.phone, duration: "03:58" }],
-  },
-  {
-    id: "p015",
-    name: "Notebook Gamer Vector 16 RTX",
-    slug: "notebook-gamer-vector-16-rtx",
-    shortDescription: "Notebook gamer com GPU dedicada, tela rapida e refrigeracao robusta.",
-    fullDescription: "O Vector 16 RTX entrega desempenho para jogos, renderizacao e criacao pesada. A tela de alta frequencia e o sistema termico sustentam performance por mais tempo.",
-    category: "Setup Gamer",
-    department: "setup-gamer",
-    image: images.laptop,
-    gallery: [images.laptop, images.monitor, images.keyboard],
-    oldPrice: 9999.9,
-    price: 7899.9,
-    installment: "10x de R$ 789,99",
-    discountPercentage: 21,
-    rating: 4.7,
-    reviewsCount: 155,
-    clicks: 5770,
-    affiliateUrl: "https://marketplace.example/oferta/vector16",
-    tags: ["gamer", "rtx", "notebook"],
-    specs: { GPU: "RTX serie 40", CPU: "Intel Core i7", Memoria: "32GB", Tela: "16 pol 240Hz" },
-    pros: commonPros,
-    cons: ["Mais pesado que ultrabooks", ...commonCons],
-    videos: [{ title: "FPS e temperaturas do Vector 16", thumbnail: images.laptop, duration: "13:15" }],
-  },
-];
+export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
+  const products = await supabaseSelect<Product>(
+    "product_catalog",
+    { select: "*", featured: "eq.true", order: "clicks.desc", limit },
+    { revalidate: 60 }
+  );
+  return products.map(normalizeProduct).slice(0, limit);
+}
 
-export const featuredProducts = products.filter((product) => product.featured).slice(0, 7);
-export const topProducts = [...products].sort((a, b) => b.clicks - a.clicks);
+export async function getTopProducts(limit?: number): Promise<Product[]> {
+  const query: Record<string, string | number> = { select: "*", order: "clicks.desc" };
+  if (limit) query.limit = limit;
+  const products = await supabaseSelect<Product>("product_catalog", query, { revalidate: 60 });
+  return products.map(normalizeProduct);
+}
 
-export const getProductBySlug = (slug: string) =>
-  products.find((product) => product.slug === slug);
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const products = await supabaseSelect<Product>(
+    "product_catalog",
+    { select: "*", slug: `eq.${slug}`, limit: 1 },
+    { revalidate: 60 }
+  );
+  return products[0] ? normalizeProduct(products[0]) : null;
+}
 
-export const getProductById = (id: string) =>
-  products.find((product) => product.id === id);
+export async function getProductById(id: string): Promise<Product | null> {
+  const products = await supabaseSelect<Product>(
+    "product_catalog",
+    { select: "*", id: `eq.${id}`, limit: 1 },
+    { revalidate: 60 }
+  );
+  return products[0] ? normalizeProduct(products[0]) : null;
+}
 
-export const getProductsByDepartment = (department: string) =>
-  products.filter((product) => product.department === department || product.category.toLowerCase() === department);
+export async function getProductsByDepartment(department: string): Promise<Product[]> {
+  const products = await supabaseSelect<Product>(
+    "product_catalog",
+    { select: "*", department: `eq.${department}`, order: "clicks.desc,name.asc" },
+    { revalidate: 60 }
+  );
+  return products.map(normalizeProduct);
+}
 
-/** Lista para a PDP: mesmo departamento; se não houver, qualquer outro produto substitui até `limit`. */
-export function getRelatedProductsForDetailPage(product: Product, limit = 4): Product[] {
-  const sameDepartment = products
-    .filter((item) => item.id !== product.id && item.department === product.department)
-    .slice(0, limit);
-  if (sameDepartment.length > 0) return sameDepartment;
-  return products.filter((item) => item.id !== product.id).slice(0, limit);
+export async function getRelatedProductsForDetailPage(product: Product, limit = 4): Promise<Product[]> {
+  const sameDepartment = await supabaseSelect<Product>(
+    "product_catalog",
+    { select: "*", department: `eq.${product.department}`, id: `neq.${product.id}`, order: "clicks.desc", limit },
+    { revalidate: 60 }
+  );
+  if (sameDepartment.length > 0) return sameDepartment.map(normalizeProduct);
+
+  const otherProducts = await supabaseSelect<Product>(
+    "product_catalog",
+    { select: "*", id: `neq.${product.id}`, order: "clicks.desc", limit },
+    { revalidate: 60 }
+  );
+  if (otherProducts.length > 0) return otherProducts.map(normalizeProduct);
+
+  return [];
 }

@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
+import { AuthProvider } from "@/app/_components/auth/AuthProvider";
 import { CartProvider } from "@/app/_components/cart/CartProvider";
 import "./globals.css";
+
+const themeInitScript = `
+  try {
+    var savedTheme = window.localStorage.getItem("techparks-theme");
+    document.documentElement.classList.toggle("light-mode", savedTheme === "light");
+  } catch (_) {}
+`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://techparks.example"),
@@ -38,9 +46,13 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       className="h-full antialiased"
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-50">
-        <CartProvider>{children}</CartProvider>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <AuthProvider>
+          <CartProvider>{children}</CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { featuredProducts } from "@/data/products";
+import { getFeaturedProducts } from "@/data/products";
 import { formatCurrency } from "@/app/_lib/format";
 
-export function InfiniteProductCarousel() {
+export async function InfiniteProductCarousel() {
+  const featuredProducts = await getFeaturedProducts();
   const items = [...featuredProducts, ...featuredProducts];
   return (
     <div className="relative overflow-hidden py-4">

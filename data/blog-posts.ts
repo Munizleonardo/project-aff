@@ -1,7 +1,11 @@
+import { supabaseSelect } from "@/app/_lib/supabase-rest";
+
 export type BlogPost = {
+  id: string;
   title: string;
   slug: string;
   excerpt: string;
+  body: string;
   category: string;
   readingTime: string;
   date: string;
@@ -10,41 +14,50 @@ export type BlogPost = {
   tags: string[];
 };
 
-export const blogPosts: BlogPost[] = [
-  {
-    title: "Como montar um setup gamer equilibrado sem desperdiçar dinheiro",
-    slug: "setup-gamer-custo-beneficio",
-    excerpt: "O que priorizar em monitor, perifericos, cadeira e iluminacao para ganhar conforto e performance.",
-    category: "Setup Gamer",
-    readingTime: "7 min",
-    date: "2026-04-20",
-    author: "Equipe TechHub",
-    image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=900&q=80",
-    tags: ["setup gamer", "perifericos", "review"],
-  },
-  {
-    title: "Produtos inteligentes que realmente fazem sentido no home office",
-    slug: "casa-inteligente-home-office",
-    excerpt: "Automacoes simples para luz, energia, chamadas e seguranca que melhoram sua rotina.",
-    category: "Casa Inteligente",
-    readingTime: "5 min",
-    date: "2026-04-12",
-    author: "Equipe TechHub",
-    image: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=900&q=80",
-    tags: ["home office", "automacao", "gadgets"],
-  },
-  {
-    title: "Monitor ultrawide vale a pena para trabalho e jogos?",
-    slug: "monitor-ultrawide-vale-a-pena",
-    excerpt: "Entenda produtividade, ergonomia, imersao e os pontos de atencao antes de comprar.",
-    category: "Monitores",
-    readingTime: "6 min",
-    date: "2026-03-28",
-    author: "Equipe TechHub",
-    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=900&q=80",
-    tags: ["monitor", "comparativo", "custo-beneficio"],
-  },
-];
+type BlogPostRow = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  body: string;
+  category_slug: string | null;
+  reading_time: string;
+  published_at: string;
+  author_name: string;
+  image_url: string;
+  tags: string[];
+};
 
-export const getBlogPostBySlug = (slug: string) =>
-  blogPosts.find((post) => post.slug === slug);
+function normalizeBlogPost(post: BlogPostRow): BlogPost {
+  return {
+    id: post.id,
+    title: post.title,
+    slug: post.slug,
+    excerpt: post.excerpt,
+    body: post.body,
+    category: post.category_slug ?? "",
+    readingTime: post.reading_time,
+    date: post.published_at,
+    author: post.author_name,
+    image: post.image_url,
+    tags: post.tags ?? [],
+  };
+}
+
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  const posts = await supabaseSelect<BlogPostRow>(
+    "blog_posts",
+    { select: "*", is_active: "eq.true", order: "published_at.desc" },
+    { revalidate: 300 }
+  );
+  return posts.map(normalizeBlogPost);
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const posts = await supabaseSelect<BlogPostRow>(
+    "blog_posts",
+    { select: "*", is_active: "eq.true", slug: `eq.${slug}`, limit: 1 },
+    { revalidate: 300 }
+  );
+  return posts[0] ? normalizeBlogPost(posts[0]) : null;
+}

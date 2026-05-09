@@ -10,7 +10,7 @@ type LogoProps = {
 export function Logo({ symbolOnly = false, className = "", withLink = true }: LogoProps) {
   const content = (
     <>
-      <span className="relative flex size-9 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/20 shadow-xl shadow-violet-900/40">
+      <span className="logo-symbol relative flex size-9 items-center justify-center overflow-hidden rounded-full bg-[#020612] ring-1 ring-white/20 shadow-xl shadow-violet-900/40">
         <span className="relative block size-7">
           <Image
             src="/parkslogo.webp"

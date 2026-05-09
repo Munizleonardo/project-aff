@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/app/_components/layout/Footer";
 import { Header } from "@/app/_components/layout/Header";
-import { products } from "@/data/products";
+import { getProducts } from "@/data/products";
 import { formatCurrency } from "@/app/_lib/format";
 
 export const metadata: Metadata = {
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/comparativos" },
 };
 
-export default function ComparisonsPage() {
+export default async function ComparisonsPage() {
+  const products = await getProducts();
+
   return (
     <>
       <Header />

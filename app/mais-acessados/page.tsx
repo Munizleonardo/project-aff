@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Footer } from "@/app/_components/layout/Footer";
 import { Header } from "@/app/_components/layout/Header";
 import { ProductGrid } from "@/app/_components/product/ProductGrid";
-import { topProducts } from "@/data/products";
+import { getTopProducts } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Produtos mais acessados",
@@ -10,7 +10,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/mais-acessados" },
 };
 
-export default function MostAccessedPage() {
+export default async function MostAccessedPage() {
+  const topProducts = await getTopProducts();
+
   return (
     <>
       <Header />

@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/app/_components/ui/card";
 import { ProductPrice } from "./ProductPrice";
 import { RatingStars } from "./RatingStars";
 import { AddToCartButton } from "@/app/_components/cart/AddToCartButton";
+import { SaveToBoxButton } from "@/app/_components/product/SaveToBoxButton";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
@@ -30,6 +31,11 @@ export function ProductCard({ product }: { product: Product }) {
           <AddToCartButton
             productId={product.id}
             label="Adicionar"
+            className="h-9 w-full rounded-full border-slate-700 bg-transparent px-2 text-xs font-black text-white hover:border-cyan-400 hover:bg-white/5 hover:text-cyan-300 sm:h-10 sm:text-sm"
+          />
+          <SaveToBoxButton
+            productId={product.id}
+            compact
             className="h-9 w-full rounded-full border-slate-700 bg-transparent px-2 text-xs font-black text-white hover:border-cyan-400 hover:bg-white/5 hover:text-cyan-300 sm:h-10 sm:text-sm"
           />
           <Button asChild className="h-9 w-full rounded-full bg-[#38aefb] px-2 text-xs font-black text-slate-950 hover:bg-cyan-300 sm:h-11 sm:text-sm">

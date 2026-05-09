@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronDown, UserRound } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { UserMenu } from "@/app/_components/auth/UserMenu";
 import { Button } from "@/app/_components/ui/button";
 import { CartButton } from "@/app/_components/cart/CartButton";
 import { DepartmentMenu } from "@/app/_components/layout/DepartmentMenu";
@@ -12,14 +13,34 @@ import { Logo } from "@/app/_components/layout/Logo";
 import { MobileMenu } from "@/app/_components/layout/MobileMenu";
 import { SearchBar } from "@/app/_components/layout/SearchBar";
 import { ThemeToggle } from "@/app/_components/layout/ThemeToggle";
+import { withCategoryIcon } from "@/data/category-icons";
+import type { Category, CategoryRecord } from "@/data/categories";
 
 /** Distância mínima de scroll (px) para trocar o header fixo pela barra flutuante lateral. */
 const FLOATING_NAV_SCROLL_THRESHOLD_PX = 180;
 
 export function Header() {
+  const [departments, setDepartments] = useState<Category[]>([]);
   const [showFloatingAlternateNav, setShowFloatingAlternateNav] = useState(false);
   const [isFloatingDepartmentsOpen, setIsFloatingDepartmentsOpen] = useState(false);
   const [isFloatingSearchOpen, setIsFloatingSearchOpen] = useState(false);
+
+  useEffect(() => {
+    let shouldIgnoreResult = false;
+
+    fetch("/api/categories")
+      .then((response) => response.ok ? response.json() as Promise<CategoryRecord[]> : [])
+      .then((items) => {
+        if (!shouldIgnoreResult) setDepartments(items.map(withCategoryIcon));
+      })
+      .catch(() => {
+        if (!shouldIgnoreResult) setDepartments([]);
+      });
+
+    return () => {
+      shouldIgnoreResult = true;
+    };
+  }, []);
 
   useEffect(() => {
     function syncFloatingNavigationWithScrollPosition() {
@@ -49,20 +70,18 @@ export function Header() {
             <Button variant="ghost" className="h-10 px-2 text-sm font-black text-white hover:bg-white hover:text-slate-950">
               Departamentos <ChevronDown className="size-4" />
             </Button>
-            <DepartmentMenu />
+            <DepartmentMenu departments={departments} />
           </div>
           <div className="hidden flex-1 justify-center md:flex">
             <SearchBar />
           </div>
           <nav className="ml-auto hidden items-center gap-4 md:flex">
             <ThemeToggle />
-            <Button asChild variant="ghost" className="h-10 px-2 text-sm font-black text-white hover:bg-white hover:text-slate-950">
-              <Link href="/login"><UserRound className="size-4" />Entrar</Link>
-            </Button>
+            <UserMenu />
             <CartButton />
           </nav>
           <div className="ml-auto md:hidden">
-            <MobileMenu />
+            <MobileMenu departments={departments} />
           </div>
         </div>
         <div className="border-t border-white/10 px-4 pb-3 pt-3 md:hidden">
@@ -71,7 +90,7 @@ export function Header() {
       </header>
 
       <nav
-        className={`fixed right-5 top-1/2 z-[80] hidden -translate-y-1/2 flex-col items-center gap-2 rounded-full border border-slate-700/70 bg-[#020612]/90 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl transition-all duration-500 ease-out md:flex ${
+        className={`floating-nav-rail fixed right-[max(0.75rem,env(safe-area-inset-right))] top-1/2 z-[80] hidden min-w-[3.25rem] -translate-y-1/2 flex-col items-center gap-3.5 rounded-full border border-slate-700/70 bg-[#020612]/95 py-3.5 pl-2.5 pr-3 shadow-2xl shadow-black/40 backdrop-blur-xl transition-all duration-500 ease-out md:flex ${
           showFloatingAlternateNav ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-10 opacity-0"
         }`}
         aria-label="Navegação flutuante"
@@ -84,6 +103,7 @@ export function Header() {
           <Logo symbolOnly withLink={false} className="text-white" />
         </Link>
         <FloatingDepartmentsPanel
+          departments={departments}
           open={isFloatingDepartmentsOpen}
           onToggle={() => {
             setIsFloatingDepartmentsOpen((value) => !value);
@@ -98,11 +118,7 @@ export function Header() {
           }}
         />
         <ThemeToggle />
-        <Button asChild variant="ghost" size="icon-lg" className="text-white hover:bg-white hover:text-slate-950">
-          <Link href="/login" aria-label="Entrar">
-            <UserRound className="size-5" />
-          </Link>
-        </Button>
+        <UserMenu railMode />
         <CartButton />
       </nav>
     </>
