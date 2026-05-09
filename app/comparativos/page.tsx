@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/app/_components/layout/Footer";
 import { Header } from "@/app/_components/layout/Header";
@@ -23,7 +23,7 @@ export default async function ComparisonsPage() {
           {products.slice(0, 8).map((product) => (
             <Link key={product.id} href={`/produto/${product.slug}`} className="grid gap-2 border-b border-white/10 p-4 text-sm transition hover:bg-white/[0.06] sm:grid-cols-3 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-3">
               <strong className="text-white">{product.name}</strong>
-              <span className="text-slate-300"><span className="text-sky-100/50 sm:hidden">Preco: </span>{formatCurrency(product.price)}</span>
+              <span className="text-slate-300"><span className="text-sky-100/50 sm:hidden">Preço: </span>{formatCurrency(product.price)}</span>
               <span className="text-slate-300"><span className="text-sky-100/50 sm:hidden">Nota: </span>{product.rating.toFixed(1)} / 5</span>
               <span className="text-cyan-200"><span className="text-sky-100/50 sm:hidden">Acessos: </span>{product.clicks.toLocaleString("pt-BR")} acessos</span>
             </Link>

@@ -7,7 +7,7 @@ import { getDepartments } from "@/data/departments";
 
 export const metadata: Metadata = {
   title: "Departamentos tech",
-  description: "Explore departamentos de tecnologia, setup gamer, home office, perifericos, gadgets e casa inteligente.",
+  description: "Explore departamentos de tecnologia, setup gamer, home office, periféricos, gadgets e casa inteligente.",
   alternates: { canonical: "/departamentos" },
 };
 

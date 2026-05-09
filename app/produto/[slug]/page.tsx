@@ -16,10 +16,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
-  if (!product) return { title: "Produto nao encontrado" };
+  if (!product) return { title: "Produto não encontrado" };
   return {
-    title: `${product.name} vale a pena? Review, preco e onde comprar`,
-    description: `${product.name} com desconto: veja preco, avaliacao, pontos positivos, pontos de atencao e link seguro para marketplace parceiro.`,
+    title: `${product.name} vale a pena? Review, preço e onde comprar`,
+    description: `${product.name} com desconto: veja preço, avaliação, pontos positivos, pontos de atenção e link seguro para marketplace parceiro.`,
     keywords: [product.name, `${product.name} vale a pena`, `review ${product.name}`, `${product.name} com desconto`, `onde comprar ${product.name}`],
     alternates: { canonical: `/produto/${product.slug}` },
     openGraph: { title: product.name, description: product.shortDescription, type: "website", images: [{ url: product.image }] },

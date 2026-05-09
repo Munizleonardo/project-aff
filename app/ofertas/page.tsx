@@ -7,7 +7,7 @@ import { getProducts } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Ofertas tech com desconto",
-  description: "Produtos tech com descontos, precos destacados e links internos para ofertas em marketplaces parceiros.",
+  description: "Produtos tech com descontos, preços destacados e links internos para ofertas em marketplaces parceiros.",
   alternates: { canonical: "/ofertas" },
 };
 

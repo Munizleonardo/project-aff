@@ -4,7 +4,7 @@ import { Footer } from "@/app/_components/layout/Footer";
 import { Header } from "@/app/_components/layout/Header";
 import { Card } from "@/app/_components/ui/card";
 
-export const metadata: Metadata = { title: "Cadastro", description: "Crie sua conta para favoritos e alertas de preco futuros.", alternates: { canonical: "/cadastro" } };
+export const metadata: Metadata = { title: "Cadastro", description: "Crie sua conta para favoritos e alertas de preço futuros.", alternates: { canonical: "/cadastro" } };
 
 export default function RegisterPage() {
   return (

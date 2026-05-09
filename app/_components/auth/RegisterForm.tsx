@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -27,12 +27,12 @@ export function RegisterForm() {
     const acceptedTerms = formData.get("acceptedTerms") === "on";
 
     if (password !== confirmPassword) {
-      setError("A confirmacao precisa ser igual a senha criada.");
+      setError("A confirmação precisa ser igual à senha criada.");
       return;
     }
 
     if (!acceptedTerms) {
-      setError("Para criar o cadastro, aceite os termos e condicoes.");
+      setError("Para criar o cadastro, aceite os termos e condições.");
       return;
     }
 
@@ -41,7 +41,7 @@ export function RegisterForm() {
       await signUp({ fullName, email, phone, password, acceptedTerms });
       router.push("/");
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Nao foi possivel criar o cadastro.");
+      setError(caughtError instanceof Error ? caughtError.message : "Não foi possível criar o cadastro.");
     } finally {
       setIsSubmitting(false);
     }
@@ -60,7 +60,7 @@ export function RegisterForm() {
         autoComplete="new-password"
         minLength={8}
         pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}"
-        title="A senha deve ter pelo menos 8 caracteres, uma letra maiuscula, uma minuscula, um numero e um caractere especial."
+        title="A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, uma minúscula, um número e um caractere especial."
         required
       />
       <Input
@@ -82,7 +82,7 @@ export function RegisterForm() {
         <span>
           Li e aceito os{" "}
           <Link href="/termos-e-condicoes" className="font-black text-cyan-300 hover:text-cyan-200">
-            termos e condições {" "}
+            termos e condições
           </Link>
            de cadastro.
         </span>
@@ -91,10 +91,10 @@ export function RegisterForm() {
         <strong className="text-sm font-black text-cyan-100">Regras para criar a senha</strong>
         <ul className="mt-3 flex flex-col gap-2 text-xs leading-5 text-sky-100/80">
           {[
-            "Minimo de 8 caracteres",
-            "Pelo menos uma letra maiuscula",
-            "Pelo menos uma letra minuscula",
-            "Pelo menos um numero",
+            "Mínimo de 8 caracteres",
+            "Pelo menos uma letra maiúscula",
+            "Pelo menos uma letra minúscula",
+            "Pelo menos um número",
             "Pelo menos um caractere especial",
           ].map((rule) => (
             <li key={rule} className="flex items-start gap-2">

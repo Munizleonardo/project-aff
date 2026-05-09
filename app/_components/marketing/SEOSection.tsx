@@ -1,4 +1,4 @@
-export function SEOSection() {
+﻿export function SEOSection() {
   return (
     <section className="grid gap-4 rounded-xl border border-white/10 bg-white/[0.03] p-6 md:grid-cols-3">
       {[

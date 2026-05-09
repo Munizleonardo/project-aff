@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Flame } from "lucide-react";
 import { CTASection } from "@/app/_components/marketing/CTASection";

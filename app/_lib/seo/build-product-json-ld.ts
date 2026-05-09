@@ -1,4 +1,4 @@
-import type { Product } from "@/data/products";
+﻿import type { Product } from "@/data/products";
 
 /** Payload JSON-LD `Product` usado pela página de detalhe para rich results. */
 export function buildGoogleProductStructuredData(product: Product) {

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Logo } from "./Logo";
 
 function SocialIcon({ type }: { type: "instagram" }) {
@@ -34,7 +34,7 @@ const institutionalLinks = [
   ["Ofertas", "/ofertas"],
   ["Comparativos", "/comparativos"],
   ["Blog", "/blog"],
-  ["Termos e condicoes", "/termos-e-condicoes"],
+  ["Termos e condições", "/termos-e-condicoes"],
   ["Termos de uso", "/termos-de-uso"],
   ["Política de privacidade", "/politica-de-privacidade"],
 ];
@@ -86,7 +86,7 @@ export function Footer() {
       <div className="border-t border-[#1b2638]/80">
         <div className="mx-auto flex max-w-[1232px] flex-col gap-3 px-4 py-5 text-center text-xs text-[#8fb0d2] md:flex-row md:items-center md:justify-between md:text-left">
           <span>© 2026 TechParks. Todos os direitos reservados.</span>
-          <span>Feito com 💙 para apaixonados por tech.</span>
+          <span>Feito com carinho para apaixonados por tech.</span>
         </div>
       </div>
     </footer>

@@ -16,10 +16,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const category = await getCategoryBySlug(slug);
-  if (!category) return { title: "Categoria nao encontrada" };
+  if (!category) return { title: "Categoria não encontrada" };
   return {
     title: `${category.name}: melhores produtos, reviews e ofertas`,
-    description: `Veja curadoria de ${category.name}, rankings, produtos custo-beneficio e ofertas em marketplaces parceiros.`,
+    description: `Veja curadoria de ${category.name}, rankings, produtos custo-benefício e ofertas em marketplaces parceiros.`,
     alternates: { canonical: `/categoria/${slug}` },
   };
 }

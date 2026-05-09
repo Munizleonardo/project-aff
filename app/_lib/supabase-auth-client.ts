@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -34,17 +34,17 @@ export type UserProfile = {
 };
 
 function getAuthUrl(path: string) {
-  if (!SUPABASE_URL) throw new Error("Supabase URL nao configurada.");
+  if (!SUPABASE_URL) throw new Error("Supabase URL não configurada.");
   return new URL(`/auth/v1/${path}`, SUPABASE_URL);
 }
 
 function getRestUrl(resource: string) {
-  if (!SUPABASE_URL) throw new Error("Supabase URL nao configurada.");
+  if (!SUPABASE_URL) throw new Error("Supabase URL não configurada.");
   return new URL(`/rest/v1/${resource}`, SUPABASE_URL);
 }
 
 function getHeaders(accessToken?: string) {
-  if (!SUPABASE_ANON_KEY) throw new Error("Supabase anon key nao configurada.");
+  if (!SUPABASE_ANON_KEY) throw new Error("Supabase anon key não configurada.");
   return {
     apikey: SUPABASE_ANON_KEY,
     Authorization: `Bearer ${accessToken ?? SUPABASE_ANON_KEY}`,
@@ -57,7 +57,7 @@ async function readJsonResponse<T>(response: Response): Promise<T> {
   const text = await response.text();
   const payload = text ? JSON.parse(text) : null;
   if (!response.ok) {
-    const message = payload?.msg ?? payload?.message ?? payload?.error_description ?? "Nao foi possivel concluir a operacao.";
+    const message = payload?.msg ?? payload?.message ?? payload?.error_description ?? "Não foi possível concluir a operação.";
     throw new Error(message);
   }
   return payload as T;
@@ -128,7 +128,7 @@ export async function signOut(accessToken: string) {
     method: "POST",
     headers: getHeaders(accessToken),
   });
-  if (!response.ok) throw new Error("Nao foi possivel sair da conta.");
+  if (!response.ok) throw new Error("Não foi possível sair da conta.");
 }
 
 export async function getCurrentUser(accessToken: string) {

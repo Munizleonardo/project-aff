@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
-  if (!post) return { title: "Post nao encontrado" };
+  if (!post) return { title: "Post não encontrado" };
   return {
     title: post.title,
     description: post.excerpt,

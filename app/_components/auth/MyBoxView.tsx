@@ -41,7 +41,7 @@ export function MyBoxView() {
   if (savedProducts.length === 0) {
     return (
       <div className="rounded-xl border border-white/10 bg-white/[0.04] p-5">
-        <p className="text-slate-300">Sua Caixa ainda esta vazia. Salve produtos para comparar e acessar depois.</p>
+        <p className="text-slate-300">Sua Caixa ainda está vazia. Salve produtos para comparar e acessar depois.</p>
         <Button asChild className="mt-4 h-11 bg-cyan-400 font-black text-slate-950 hover:bg-cyan-300">
           <Link href="/ofertas">Ver ofertas</Link>
         </Button>

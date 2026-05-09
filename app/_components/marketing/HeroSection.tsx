@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight, BadgeCheck, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
 import { getTopProducts, type Product } from "@/data/products";

@@ -10,7 +10,7 @@ import type { Product } from "@/data/products";
 import { formatCurrency } from "@/app/_lib/format";
 
 const PDP_CHOICE_REASON_HIGHLIGHTS: Array<{ label: string; Icon: LucideIcon; iconColorClassName: string }> = [
-  { label: "Melhor preco", Icon: Trophy, iconColorClassName: "text-emerald-400" },
+  { label: "Melhor preço", Icon: Trophy, iconColorClassName: "text-emerald-400" },
   { label: "Custo-beneficio", Icon: TrendingUp, iconColorClassName: "text-cyan-400" },
   { label: "Mais acessado", Icon: Eye, iconColorClassName: "text-amber-400" },
   { label: "Melhor avaliado", Icon: Sparkles, iconColorClassName: "text-violet-400" },
@@ -34,7 +34,7 @@ export function ProductDetailPageView({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productStructuredDataJson }} />
       <section className="mx-auto flex max-w-[1120px] flex-col gap-6 px-4 py-6 md:gap-9 md:py-12">
         <nav className="flex flex-wrap gap-2 text-xs font-semibold leading-5 text-sky-100/60">
-          <Link href="/">Inicio</Link>
+          <Link href="/">Início</Link>
           <span>&gt;</span>
           <Link href={`/categoria/${product.department}`}>{product.category}</Link>
           <span>&gt;</span>
@@ -52,7 +52,7 @@ export function ProductDetailPageView({
             <div className="flex flex-wrap items-center gap-2 text-sm text-sky-100/70">
               <span className="flex text-amber-400">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className="size-4 fill-amber-400" />)}</span>
               <strong className="text-white">{product.rating.toFixed(1)}</strong>
-              <span>({product.reviewsCount.toLocaleString("pt-BR")} avaliacoes)</span>
+              <span>({product.reviewsCount.toLocaleString("pt-BR")} avaliações)</span>
             </div>
 
             <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4 shadow-xl shadow-black/20 sm:p-5">
@@ -62,7 +62,7 @@ export function ProductDetailPageView({
                   <strong className="mt-1 block text-[2rem] font-black leading-tight text-white md:text-4xl">{formatCurrency(product.price)}</strong>
                   <span className="text-sm text-sky-100/70">{product.installment}</span>
                   <span className="mt-2 block text-xs font-black text-emerald-400">
-                    Voce economiza {formatCurrency(priceAdvantageVersusSticker)}
+                    Você economiza {formatCurrency(priceAdvantageVersusSticker)}
                   </span>
                 </div>
                 <span className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-black text-white">-{product.discountPercentage}%</span>
@@ -81,9 +81,9 @@ export function ProductDetailPageView({
                 />
               </div>
               <div className="mt-4 rounded-xl bg-emerald-500/10 p-3 text-xs font-semibold text-emerald-300">
-                <Check className="mr-2 inline size-4" /> Compra segura. Voce e redirecionado para o marketplace parceiro para finalizar.
+                <Check className="mr-2 inline size-4" /> Compra segura. Você é redirecionado para o marketplace parceiro para finalizar.
               </div>
-              <p className="mt-3 text-xs text-sky-100/55"><Info className="mr-1 inline size-3.5" /> Podemos receber comissao por compras realizadas atraves deste link.</p>
+              <p className="mt-3 text-xs text-sky-100/55"><Info className="mr-1 inline size-3.5" /> Podemos receber comissão por compras realizadas através deste link.</p>
             </Card>
 
             <div className="flex flex-col gap-3">
@@ -114,7 +114,7 @@ export function ProductDetailPageView({
 
         <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
           <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4 md:p-6">
-            <h2 className="text-xl font-black text-white md:text-2xl">Descricao completa</h2>
+            <h2 className="text-xl font-black text-white md:text-2xl">Descrição completa</h2>
             <p className="mt-4 leading-7 text-sky-100/70">{product.fullDescription}</p>
             <div className="mt-6 grid gap-5 md:grid-cols-2">
               <div>
@@ -122,13 +122,13 @@ export function ProductDetailPageView({
                 <ul className="mt-3 flex flex-col gap-2 text-sm text-sky-100/80">{product.pros.slice(0, 3).map((item) => <li key={item}>+ {item}</li>)}</ul>
               </div>
               <div>
-                <h3 className="text-sm font-black uppercase text-amber-400">Pontos de atencao</h3>
+                <h3 className="text-sm font-black uppercase text-amber-400">Pontos de atenção</h3>
                 <ul className="mt-3 flex flex-col gap-2 text-sm text-sky-100/80">{product.cons.slice(0, 3).map((item) => <li key={item}>! {item}</li>)}</ul>
               </div>
             </div>
           </Card>
           <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4 md:p-6">
-            <h2 className="text-xl font-black text-white">Especificacoes tecnicas</h2>
+            <h2 className="text-xl font-black text-white">Especificações técnicas</h2>
             <div className="mt-5 flex flex-col gap-3">
               {Object.entries(product.specs).map(([key, value]) => (
                 <div key={key} className="flex flex-col gap-1 border-b border-slate-800 pb-3 text-sm min-[420px]:flex-row min-[420px]:justify-between min-[420px]:gap-4">
@@ -142,15 +142,15 @@ export function ProductDetailPageView({
 
         <Card asChild className="rounded-2xl border-slate-800 bg-[#07101f] p-4 md:p-6">
           <section>
-            <h2 className="text-xl font-black text-white md:text-2xl">Avaliacoes de quem comprou</h2>
+            <h2 className="text-xl font-black text-white md:text-2xl">Avaliações de quem comprou</h2>
             <div className="mt-6 grid gap-5 md:grid-cols-[110px_1fr] md:gap-6">
               <div>
                 <strong className="text-5xl font-black text-cyan-400">{product.rating.toFixed(1)}</strong>
                 <div className="mt-1 flex text-amber-400">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className="size-4 fill-amber-400" />)}</div>
-                <span className="text-xs text-sky-100/60">{product.reviewsCount.toLocaleString("pt-BR")} avaliacoes</span>
+                <span className="text-xs text-sky-100/60">{product.reviewsCount.toLocaleString("pt-BR")} avaliações</span>
               </div>
               <div className="flex min-h-24 items-center rounded-xl border border-slate-800 bg-slate-950/30 p-4 text-sm leading-6 text-sky-100/65">
-                Avaliacoes e depoimentos sao carregados da tabela de reviews do banco.
+                Avaliações e depoimentos são carregados da tabela de reviews do banco.
               </div>
             </div>
             {product.reviews.length > 0 ? (

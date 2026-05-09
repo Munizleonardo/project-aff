@@ -6,7 +6,7 @@ export function ProductReviews({ product }: { product: Product }) {
   return (
     <section className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
-        <h2 className="text-2xl font-black text-white">Avaliacoes</h2>
+        <h2 className="text-2xl font-black text-white">Avaliações</h2>
         <RatingStars rating={product.rating} reviewsCount={product.reviewsCount} />
       </div>
       {product.reviews.length > 0 ? (

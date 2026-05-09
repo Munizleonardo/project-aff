@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import { ChartNoAxesColumn, FolderPlus, LinkIcon, PackagePlus, UsersRound } from "lucide-react";
@@ -32,7 +32,7 @@ async function adminFetch<T>(path: string, password: string, options: RequestIni
     },
   });
   const payload = await response.json().catch(() => null);
-  if (!response.ok) throw new Error(payload?.error ?? "Operacao administrativa falhou.");
+  if (!response.ok) throw new Error(payload?.error ?? "Operação administrativa falhou.");
   return payload as T;
 }
 
@@ -80,7 +80,7 @@ export function AdminPanel() {
       setPassword(draftPassword);
       window.sessionStorage.setItem(adminPasswordStorageKey, draftPassword);
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Senha invalida.");
+      setError(caughtError instanceof Error ? caughtError.message : "Senha inválida.");
     }
   }
 
@@ -96,7 +96,7 @@ export function AdminPanel() {
       try {
         payload.specs = JSON.parse(String(payload.specs || "{}"));
       } catch {
-        setError("Especificacoes precisa ser um JSON valido.");
+        setError("Especificações precisa ser um JSON válido.");
         return;
       }
     }
@@ -115,7 +115,7 @@ export function AdminPanel() {
       form.reset();
       await loadDashboard();
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Nao foi possivel salvar.");
+      setError(caughtError instanceof Error ? caughtError.message : "Não foi possível salvar.");
     }
   }
 
@@ -147,7 +147,7 @@ export function AdminPanel() {
       <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 className="text-3xl font-black text-white md:text-4xl">Admin TechParks</h1>
-          <p className="mt-1 text-slate-300">Cadastro de produtos, categorias, links afiliados e visao operacional.</p>
+          <p className="mt-1 text-slate-300">Cadastro de produtos, categorias, links afiliados e visão operacional.</p>
         </div>
         <Button
           variant="outline"
@@ -178,7 +178,7 @@ export function AdminPanel() {
               "Tabela categories: name, slug, description, icon_name, accent_from, accent_to, sort_order, is_active.",
               "Automáticos no banco: id, created_at e updated_at.",
               "Slug é usado na URL, exemplo headset.",
-              "Icone aceito pelo site: headphones, monitor, laptop, tag, gamepad, keyboard, smartphone.",
+              "Ícone aceito pelo site: headphones, monitor, laptop, tag, gamepad, keyboard, smartphone.",
             ]}
           />
           <form className="grid gap-3" onSubmit={(event) => submitJsonForm(event, "/api/admin/categories", "Categoria criada com sucesso.")}>
@@ -188,8 +188,8 @@ export function AdminPanel() {
               if (slug && !slug.value) slug.value = slugify(event.currentTarget.value);
             }} />
             <Input name="slug" placeholder="Slug: headset" required />
-            <Input name="description" placeholder="Descricao" required />
-            <Input name="iconName" placeholder="Icone: headphones, monitor, laptop..." defaultValue="tag" />
+            <Input name="description" placeholder="Descrição" required />
+            <Input name="iconName" placeholder="Ícone: headphones, monitor, laptop..." defaultValue="tag" />
             <div className="grid grid-cols-2 gap-3">
               <Input name="accentFrom" placeholder="from-blue-400" defaultValue="from-cyan-400" />
               <Input name="accentTo" placeholder="to-purple-600" defaultValue="to-blue-600" />
@@ -209,7 +209,7 @@ export function AdminPanel() {
               "Department slug: use o slug da categoria, exemplo headset.",
               "Specs: precisa ser JSON valido, exemplo {\"Conexao\":\"Bluetooth\",\"Bateria\":\"40 horas\"}.",
               "Pros/Cons: informe um item por linha.",
-              "O link afiliado e cadastrado no card Link afiliado, depois que o produto existir.",
+              "O link afiliado é cadastrado no card Link afiliado, depois que o produto existir.",
             ]}
           />
           <ReferenceBox title="Categorias cadastradas" items={categoryOptions.map((category) => `${category.name} | slug: ${category.slug} | id: ${category.id}`)} />
@@ -225,12 +225,12 @@ export function AdminPanel() {
               {categoryOptions.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
             </datalist>
             <Input name="departmentSlug" placeholder="Slug da categoria: headset" required />
-            <Input name="shortDescription" placeholder="Descricao curta" required />
-            <textarea name="fullDescription" placeholder="Descricao completa" required className="min-h-24 rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-400" />
+            <Input name="shortDescription" placeholder="Descrição curta" required />
+            <textarea name="fullDescription" placeholder="Descrição completa" required className="min-h-24 rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-400" />
             <Input name="mainImageUrl" placeholder="URL da imagem principal" required />
             <div className="grid grid-cols-2 gap-3">
-              <Input name="oldPrice" type="number" step="0.01" placeholder="Preco antigo" required />
-              <Input name="price" type="number" step="0.01" placeholder="Preco atual" required />
+              <Input name="oldPrice" type="number" step="0.01" placeholder="Preço antigo" required />
+              <Input name="price" type="number" step="0.01" placeholder="Preço atual" required />
             </div>
             <Input name="installment" placeholder="10x de R$ 99,99" />
             <div className="grid grid-cols-3 gap-3">
@@ -242,7 +242,7 @@ export function AdminPanel() {
             <Input name="tags" placeholder="tags separadas por virgula" />
             <textarea name="specs" defaultValue={'{"Tela":"27 polegadas"}'} className="min-h-20 rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-400" />
             <textarea name="pros" placeholder="Um ponto positivo por linha" className="min-h-20 rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-400" />
-            <textarea name="cons" placeholder="Um ponto de atencao por linha" className="min-h-20 rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-400" />
+            <textarea name="cons" placeholder="Um ponto de atenção por linha" className="min-h-20 rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-400" />
             <label className="flex items-center gap-2 text-sm font-bold text-white"><input name="featured" type="checkbox" value="true" /> Destaque</label>
             <label className="flex items-center gap-2 text-sm font-bold text-white"><input name="isActive" type="checkbox" value="true" defaultChecked /> Produto ativo no site</label>
             <Button className="h-11 bg-cyan-400 font-black text-slate-950 hover:bg-cyan-300">Salvar produto</Button>
@@ -256,8 +256,8 @@ export function AdminPanel() {
               "Automáticos no banco: id, created_at e updated_at.",
               "Product ID: copie o ID do produto na lista abaixo ou selecione pelo datalist.",
               "Affiliate URL: cole aqui o link completo gerado na plataforma de afiliados.",
-              "Oferta principal: deixe marcado quando este for o link/preco principal do produto.",
-              "Preco e desconto aqui sobrescrevem os valores exibidos do produto enquanto a oferta estiver ativa e dentro do periodo.",
+              "Oferta principal: deixe marcado quando este for o link/preço principal do produto.",
+              "Preço e desconto aqui sobrescrevem os valores exibidos do produto enquanto a oferta estiver ativa e dentro do período.",
             ]}
           />
           <ReferenceBox title="Produtos cadastrados" items={productOptions.map((product) => `${product.name} | slug: ${product.slug} | id: ${product.id}`)} />
@@ -269,13 +269,13 @@ export function AdminPanel() {
             <Input name="marketplaceName" placeholder="Marketplace: Amazon" required />
             <Input name="affiliateUrl" placeholder="Link de afiliado completo" required />
             <div className="grid grid-cols-2 gap-3">
-              <Input name="oldPrice" type="number" step="0.01" placeholder="Preco antigo" />
-              <Input name="price" type="number" step="0.01" placeholder="Preco atual" />
+              <Input name="oldPrice" type="number" step="0.01" placeholder="Preço antigo" />
+              <Input name="price" type="number" step="0.01" placeholder="Preço atual" />
             </div>
             <Input name="installment" placeholder="10x de R$ 99,99" />
             <Input name="discountPercentage" type="number" placeholder="% off" />
             <div className="grid grid-cols-2 gap-3">
-              <Input name="startsAt" type="datetime-local" placeholder="Inicio da oferta" />
+              <Input name="startsAt" type="datetime-local" placeholder="Início da oferta" />
               <Input name="endsAt" type="datetime-local" placeholder="Fim da oferta" />
             </div>
             <label className="flex items-center gap-2 text-sm font-bold text-white"><input name="isPrimary" type="checkbox" value="true" defaultChecked /> Oferta principal</label>
@@ -287,8 +287,8 @@ export function AdminPanel() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <AdminList title="Produtos mais clicados" items={(dashboard?.topProducts ?? []).map((product) => `${product.name} - ${product.clicks ?? 0} cliques`)} />
-        <AdminList title="Ultimos cliques" items={(dashboard?.recentClicks ?? []).map((click) => `${new Date(click.created_at).toLocaleString("pt-BR")} - ${click.product_id ?? "produto nao informado"}`)} />
-        <AdminList title="Ultimos cadastros" items={(dashboard?.recentProfiles ?? []).map((profile) => `${profile.full_name || profile.email} - ${new Date(profile.created_at).toLocaleDateString("pt-BR")}`)} />
+        <AdminList title="Últimos cliques" items={(dashboard?.recentClicks ?? []).map((click) => `${new Date(click.created_at).toLocaleString("pt-BR")} - ${click.product_id ?? "produto não informado"}`)} />
+        <AdminList title="Últimos cadastros" items={(dashboard?.recentProfiles ?? []).map((profile) => `${profile.full_name || profile.email} - ${new Date(profile.created_at).toLocaleDateString("pt-BR")}`)} />
       </div>
     </div>
   );
@@ -315,7 +315,7 @@ function AdminFormCard({ title, icon, children }: { title: string; icon: React.R
 function InfoBox({ items }: { items: string[] }) {
   return (
     <div className="mb-4 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3">
-      <strong className="text-xs font-black uppercase tracking-wide text-cyan-100">Informacoes necessarias</strong>
+      <strong className="text-xs font-black uppercase tracking-wide text-cyan-100">Informações necessárias</strong>
       <ul className="mt-2 grid gap-1.5 text-xs leading-5 text-sky-100/80">
         {items.map((item) => <li key={item}>- {item}</li>)}
       </ul>

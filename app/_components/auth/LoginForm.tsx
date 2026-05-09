@@ -26,7 +26,7 @@ export function LoginForm() {
       await signIn(email, password);
       router.push("/");
     } catch (caughtError) {
-      setError(caughtError instanceof Error ? caughtError.message : "Nao foi possivel entrar.");
+      setError(caughtError instanceof Error ? caughtError.message : "Não foi possível entrar.");
     } finally {
       setIsSubmitting(false);
     }

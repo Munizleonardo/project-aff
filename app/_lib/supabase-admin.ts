@@ -1,4 +1,4 @@
-type AdminQueryValue = string | number | boolean;
+﻿type AdminQueryValue = string | number | boolean;
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -19,7 +19,7 @@ export function isSupabaseAdminConfigured() {
 
 function getHeaders(extra?: HeadersInit) {
   const key = getSupabaseKey();
-  if (!key) throw new Error("Chave do Supabase nao configurada.");
+  if (!key) throw new Error("Chave do Supabase não configurada.");
   return {
     apikey: key,
     Authorization: `Bearer ${key}`,
@@ -30,7 +30,7 @@ function getHeaders(extra?: HeadersInit) {
 }
 
 function getRestUrl(resource: string, query: Record<string, AdminQueryValue> = {}) {
-  if (!SUPABASE_URL) throw new Error("URL do Supabase nao configurada.");
+  if (!SUPABASE_URL) throw new Error("URL do Supabase não configurada.");
   const url = new URL(`/rest/v1/${resource}`, SUPABASE_URL);
   Object.entries(query).forEach(([key, value]) => url.searchParams.set(key, String(value)));
   return url;
@@ -40,7 +40,7 @@ async function readJsonResponse<T>(response: Response): Promise<T> {
   const text = await response.text();
   const payload = text ? JSON.parse(text) : null;
   if (!response.ok) {
-    const message = payload?.message ?? payload?.msg ?? payload?.hint ?? "Operacao administrativa falhou.";
+    const message = payload?.message ?? payload?.msg ?? payload?.hint ?? "Operação administrativa falhou.";
     throw new Error(message);
   }
   return payload as T;
@@ -56,7 +56,7 @@ export async function adminSelect<T>(resource: string, query: Record<string, Adm
 }
 
 export async function adminInsert<T>(resource: string, payload: unknown, prefer = "return=representation") {
-  if (!isSupabaseAdminConfigured()) throw new Error("Supabase admin nao configurado.");
+  if (!isSupabaseAdminConfigured()) throw new Error("Supabase admin não configurado.");
   const response = await fetch(getRestUrl(resource), {
     method: "POST",
     headers: getHeaders({ Prefer: prefer }),

@@ -28,7 +28,7 @@ export function ProfileView() {
       <dl className="grid gap-4 text-sm">
         <div>
           <dt className="font-black uppercase tracking-wide text-sky-100/50">Nome</dt>
-          <dd className="mt-1 text-lg font-bold text-white">{profile?.full_name || "Nao informado"}</dd>
+          <dd className="mt-1 text-lg font-bold text-white">{profile?.full_name || "Não informado"}</dd>
         </div>
         <div>
           <dt className="font-black uppercase tracking-wide text-sky-100/50">Email</dt>
@@ -36,11 +36,11 @@ export function ProfileView() {
         </div>
         <div>
           <dt className="font-black uppercase tracking-wide text-sky-100/50">Telefone</dt>
-          <dd className="mt-1 text-lg font-bold text-white">{profile?.phone || "Nao informado"}</dd>
+          <dd className="mt-1 text-lg font-bold text-white">{profile?.phone || "Não informado"}</dd>
         </div>
         <div>
           <dt className="font-black uppercase tracking-wide text-sky-100/50">Cadastro</dt>
-          <dd className="mt-1 text-lg font-bold text-white">{profile?.created_at ? new Date(profile.created_at).toLocaleDateString("pt-BR") : "Nao informado"}</dd>
+          <dd className="mt-1 text-lg font-bold text-white">{profile?.created_at ? new Date(profile.created_at).toLocaleDateString("pt-BR") : "Não informado"}</dd>
         </div>
       </dl>
     </Card>

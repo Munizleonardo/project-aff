@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -358,7 +358,7 @@ button[class*="hover:bg-white"]:hover {
   color: #07111f !important;
 }
 
-/* Newsletter em gradiente escuro: não aplicar inversão de “text-white” do modo claro */
+/* Newsletter em gradiente escuro: não aplicar inversão de â€œtext-whiteâ€ do modo claro */
 .light-mode .cta-newsletter-banner,
 .light-mode .cta-newsletter-banner h2,
 .light-mode .cta-newsletter-banner p,
