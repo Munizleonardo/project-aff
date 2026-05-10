@@ -19,7 +19,7 @@ export default async function MostAccessedPage() {
       <main className="mx-auto flex max-w-7xl flex-1 flex-col gap-6 px-4 py-8 md:py-10">
         <div>
           <h1 className="text-[1.9rem] font-black leading-tight text-white md:text-4xl">Produtos mais acessados</h1>
-          <p className="mt-2 text-slate-300">Ranking preparado para evoluir com analytics, CTR e conversões estimadas.</p>
+          <p className="mt-2 text-slate-300">Produtos que mais receberam interesse dos usuários nos últimos dias.</p>
         </div>
         <ProductGrid products={topProducts} />
       </main>

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { AuthProvider } from "@/app/_components/auth/AuthProvider";
-import { CartProvider } from "@/app/_components/cart/CartProvider";
 import "./globals.css";
 
 const themeInitScript = `
@@ -18,15 +17,15 @@ export const metadata: Metadata = {
     apple: "/parkslogo.webp",
   },
   title: {
-    default: "TechParks | Ofertas tech, gadgets e setup",
+    default: "TechParks | Comparador tech, análises e ofertas",
     template: "%s | TechParks",
   },
   description:
-    "Curadoria de produtos tech, gadgets, setup gamer, home office e casa inteligente com reviews, rankings e links seguros para marketplaces parceiros.",
-  keywords: ["ofertas tecnologia", "gadgets", "setup gamer", "home office", "produtos inteligentes", "ofertas tech"],
+    "Compare produtos tech, avaliações, preços e ofertas de marketplaces parceiros antes de decidir onde comprar.",
+  keywords: ["comparar preço tecnologia", "melhor preço tech", "comparativos tech", "produtos custo-benefício", "ofertas marketplace"],
   openGraph: {
     title: "TechParks",
-    description: "Produtos tech selecionados para comparar, avaliar e comprar melhor.",
+    description: "Plataforma de comparação, curadoria e análise de produtos tech afiliados.",
     url: "https://techparks.example",
     siteName: "TechParks",
     locale: "pt_BR",
@@ -50,9 +49,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-50">
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <AuthProvider>
-          <CartProvider>{children}</CartProvider>
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

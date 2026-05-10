@@ -220,6 +220,7 @@ select
   p.rating::float8 as rating,
   p.reviews_count as "reviewsCount",
   p.clicks_count as clicks,
+  ao.id::text as "affiliateOfferId",
   coalesce(ao.affiliate_url, '') as "affiliateUrl",
   p.tags,
   p.specs,
@@ -265,7 +266,7 @@ left join lateral (
   limit 1
 ) ao on true
 where p.is_active = true
-group by p.id, c.name, c.slug, ao.old_price, ao.price, ao.installment, ao.discount_percentage, ao.affiliate_url;
+group by p.id, c.name, c.slug, ao.id, ao.old_price, ao.price, ao.installment, ao.discount_percentage, ao.affiliate_url;
 
 alter table public.categories enable row level security;
 alter table public.products enable row level security;

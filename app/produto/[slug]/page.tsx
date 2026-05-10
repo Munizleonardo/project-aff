@@ -18,11 +18,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await getProductBySlug(slug);
   if (!product) return { title: "Produto não encontrado" };
   return {
-    title: `${product.name} vale a pena? Review, preço e onde comprar`,
-    description: `${product.name} com desconto: veja preço, avaliação, pontos positivos, pontos de atenção e link seguro para marketplace parceiro.`,
-    keywords: [product.name, `${product.name} vale a pena`, `review ${product.name}`, `${product.name} com desconto`, `onde comprar ${product.name}`],
+    title: `${product.name} vale a pena? Compare preço, avaliação e ofertas`,
+    description: `Compare preço de ${product.name}, veja se vale a pena, avaliações, vantagens, desvantagens e ofertas em marketplaces parceiros.`,
+    keywords: [
+      product.name,
+      `comparar preço de ${product.name}`,
+      `${product.name} vale a pena`,
+      `melhor preço ${product.name}`,
+      `${product.name} Amazon ou Mercado Livre`,
+      `melhor ${product.category} custo-benefício`,
+    ],
     alternates: { canonical: `/produto/${product.slug}` },
-    openGraph: { title: product.name, description: product.shortDescription, type: "website", images: [{ url: product.image }] },
+    openGraph: {
+      title: `${product.name} vale a pena?`,
+      description: product.shortDescription,
+      type: "website",
+      images: [{ url: product.image }],
+    },
   };
 }
 

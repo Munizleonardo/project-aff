@@ -66,6 +66,22 @@ export async function adminInsert<T>(resource: string, payload: unknown, prefer 
   return readJsonResponse<T[]>(response);
 }
 
+export async function adminUpdate<T>(
+  resource: string,
+  query: Record<string, AdminQueryValue>,
+  payload: unknown,
+  prefer = "return=representation"
+) {
+  if (!isSupabaseAdminConfigured()) throw new Error("Supabase admin não configurado.");
+  const response = await fetch(getRestUrl(resource, query), {
+    method: "PATCH",
+    headers: getHeaders({ Prefer: prefer }),
+    body: JSON.stringify(payload),
+    cache: "no-store",
+  });
+  return readJsonResponse<T[]>(response);
+}
+
 export async function adminCount(resource: string, query: Record<string, AdminQueryValue> = {}) {
   if (!isSupabaseAdminConfigured()) return 0;
   const response = await fetch(getRestUrl(resource, { select: "id", ...query }), {

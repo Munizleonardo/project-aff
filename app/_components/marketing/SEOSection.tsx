@@ -2,7 +2,7 @@
   return (
     <section className="grid gap-4 rounded-xl border border-white/10 bg-white/[0.03] p-6 md:grid-cols-3">
       {[
-        ["Reviews objetivos", "Conteúdos preparados para buscas como vale a pena, review, desconto e onde comprar."],
+        ["Reviews objetivos", "Conteúdos preparados para buscas como vale a pena, comparar preço e melhor custo-benefício."],
         ["Comparativos claros", "Estrutura pronta para cruzar preço, avaliação, acessos e custo-benefício."],
         ["Transparência comercial", "Links visuais passam por rota interna para futuro rastreamento de cliques."],
       ].map(([title, text]) => (

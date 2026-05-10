@@ -6,8 +6,8 @@ import { ProductGrid } from "@/app/_components/product/ProductGrid";
 import { getProducts } from "@/data/products";
 
 export const metadata: Metadata = {
-  title: "Ofertas tech com desconto",
-  description: "Produtos tech com descontos, preços destacados e links internos para ofertas em marketplaces parceiros.",
+  title: "Melhores ofertas tech comparadas",
+  description: "Compare ofertas tech com menor preço encontrado, avaliações e links seguros para marketplaces parceiros.",
   alternates: { canonical: "/ofertas" },
 };
 
@@ -23,8 +23,8 @@ export default async function OffersPage() {
             <Tag className="size-6 sm:size-7" />
           </span>
           <div>
-            <h1 className="text-[1.9rem] font-black leading-tight text-white sm:text-4xl">Ofertas <span className="text-cyan-400">imperdiveis</span></h1>
-            <p className="mt-1 text-base text-sky-100/70">Os maiores descontos do momento</p>
+            <h1 className="text-[1.9rem] font-black leading-tight text-white sm:text-4xl">Ofertas <span className="text-cyan-400">comparadas</span></h1>
+            <p className="mt-1 text-base text-sky-100/70">Produtos com menor preço encontrado e análise rápida</p>
           </div>
         </div>
         <ProductGrid products={[...products].sort((a, b) => b.discountPercentage - a.discountPercentage)} />

@@ -1,20 +1,13 @@
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
-import { Check, ExternalLink, Eye, Info, Sparkles, Star, TrendingUp, Trophy } from "lucide-react";
-import { AddToCartButton } from "@/app/_components/cart/AddToCartButton";
+import { BarChart3, Check, ExternalLink, Info, Star, X } from "lucide-react";
+import { AffiliateDisclosure } from "@/app/_components/marketing/AffiliateDisclosure";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
 import { ProductCard } from "@/app/_components/product/ProductCard";
 import { SaveToBoxButton } from "@/app/_components/product/SaveToBoxButton";
 import type { Product } from "@/data/products";
+import { getBestProductOffer, getEstimatedSavings, getProductOffers } from "@/data/products";
 import { formatCurrency } from "@/app/_lib/format";
-
-const PDP_CHOICE_REASON_HIGHLIGHTS: Array<{ label: string; Icon: LucideIcon; iconColorClassName: string }> = [
-  { label: "Melhor preço", Icon: Trophy, iconColorClassName: "text-emerald-400" },
-  { label: "Custo-beneficio", Icon: TrendingUp, iconColorClassName: "text-cyan-400" },
-  { label: "Mais acessado", Icon: Eye, iconColorClassName: "text-amber-400" },
-  { label: "Melhor avaliado", Icon: Sparkles, iconColorClassName: "text-violet-400" },
-];
 
 type ProductDetailPageViewProps = {
   product: Product;
@@ -22,17 +15,25 @@ type ProductDetailPageViewProps = {
   productStructuredDataJson: string;
 };
 
+const scoreCards = [
+  ["Custo-benefício", "92/100", "text-emerald-300"],
+  ["Qualidade", "88/100", "text-cyan-300"],
+  ["Popularidade", "Alta", "text-amber-300"],
+  ["Preço", "Competitivo", "text-violet-300"],
+];
+
 export function ProductDetailPageView({
   product,
   relatedProducts,
   productStructuredDataJson,
 }: ProductDetailPageViewProps) {
-  const priceAdvantageVersusSticker = product.oldPrice - product.price;
+  const offers = getProductOffers(product);
+  const bestOffer = getBestProductOffer(product);
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productStructuredDataJson }} />
-      <section className="mx-auto flex max-w-[1120px] flex-col gap-6 px-4 py-6 md:gap-9 md:py-12">
+      <section className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-6 md:gap-10 md:py-12">
         <nav className="flex flex-wrap gap-2 text-xs font-semibold leading-5 text-sky-100/60">
           <Link href="/">Início</Link>
           <span>&gt;</span>
@@ -41,94 +42,139 @@ export function ProductDetailPageView({
           <span className="text-white">{product.name}</span>
         </nav>
 
-        <section className="grid gap-6 md:gap-8 lg:grid-cols-[1fr_1fr]">
-          <Card className="aspect-[1.08/1] overflow-hidden rounded-2xl border-slate-800 bg-[#07101f] shadow-xl shadow-black/25 sm:aspect-square sm:shadow-2xl">
-            <img src={product.image} alt={product.name} className="size-full object-cover" />
-          </Card>
-
-          <div className="flex flex-col gap-4 pt-1 sm:gap-5">
-            <span className="w-fit rounded-full bg-[#10233d] px-3 py-1 text-xs font-black text-sky-100">{product.category}</span>
-            <h1 className="text-[1.85rem] font-black leading-tight text-white md:text-4xl">{product.name}</h1>
-            <div className="flex flex-wrap items-center gap-2 text-sm text-sky-100/70">
-              <span className="flex text-amber-400">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className="size-4 fill-amber-400" />)}</span>
-              <strong className="text-white">{product.rating.toFixed(1)}</strong>
-              <span>({product.reviewsCount.toLocaleString("pt-BR")} avaliações)</span>
+        <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-9">
+          <div className="flex flex-col gap-3">
+            <Card className="aspect-[1.08/1] overflow-hidden rounded-2xl border-slate-800 bg-[#07101f] shadow-xl shadow-black/25">
+              <img src={product.image} alt={product.name} className="size-full object-cover" />
+            </Card>
+            <div className="grid grid-cols-4 gap-2">
+              {(product.gallery.length ? product.gallery : [product.image]).slice(0, 4).map((image) => (
+                <span key={image} className="aspect-square overflow-hidden rounded-xl border border-slate-800 bg-[#07101f]">
+                  <img src={image} alt="" className="size-full object-cover" />
+                </span>
+              ))}
             </div>
+          </div>
 
-            <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4 shadow-xl shadow-black/20 sm:p-5">
-              <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-wrap gap-2">
+              <span className="w-fit rounded-full bg-[#10233d] px-3 py-1 text-xs font-black text-sky-100">{product.category}</span>
+              <span className="w-fit rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-black text-emerald-300">{product.recommendationBadge}</span>
+            </div>
+            <div className="flex flex-col gap-3">
+              <h1 className="text-[2rem] font-black leading-tight text-white md:text-5xl">{product.name}</h1>
+              <p className="max-w-2xl text-base leading-7 text-sky-100/75">{product.shortDescription}</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 text-sm text-sky-100/70">
+              <span className="flex items-center gap-1 text-amber-300"><Star className="size-4 fill-amber-300" /> <strong>{product.rating.toFixed(1)}</strong></span>
+              <span>{product.reviewsCount.toLocaleString("pt-BR")} avaliações analisadas</span>
+              <span>{product.clicks.toLocaleString("pt-BR")} acessos recentes</span>
+            </div>
+            <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <span className="text-sm text-sky-100/55 line-through">{formatCurrency(product.oldPrice)}</span>
-                  <strong className="mt-1 block text-[2rem] font-black leading-tight text-white md:text-4xl">{formatCurrency(product.price)}</strong>
-                  <span className="text-sm text-sky-100/70">{product.installment}</span>
-                  <span className="mt-2 block text-xs font-black text-emerald-400">
-                    Você economiza {formatCurrency(priceAdvantageVersusSticker)}
-                  </span>
+                  <span className="text-sm font-semibold text-sky-100/55">Menor preço encontrado</span>
+                  <strong className="mt-1 block text-4xl font-black text-white">{formatCurrency(bestOffer.price)}</strong>
+                  <span className="text-sm text-sky-100/70">{bestOffer.storeName} · {bestOffer.installment}</span>
                 </div>
-                <span className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-black text-white">-{product.discountPercentage}%</span>
+                <div className="flex flex-col gap-1 text-sm text-sky-100/70 sm:text-right">
+                  <span>{offers.length} ofertas disponíveis</span>
+                  <span>Economia estimada: <strong className="text-emerald-300">{formatCurrency(getEstimatedSavings(product))}</strong></span>
+                </div>
               </div>
-              <div className="mt-5 flex flex-col gap-3">
-                <Button asChild className="button-clear-hover h-12 w-full rounded-xl bg-[#38aefb] px-3 text-sm font-black text-slate-950 hover:scale-[1.02]">
-                  <Link href={`/oferta/${product.id}`}>Ver oferta no marketplace <ExternalLink className="size-4" /></Link>
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                <Button asChild className="h-12 rounded-xl bg-[#38aefb] px-5 text-base font-black text-slate-950">
+                  <a href="#ofertas">Comparar preços <BarChart3 className="size-5" /></a>
                 </Button>
-                <AddToCartButton
-                  productId={product.id}
-                  className="h-11 w-full rounded-xl border-slate-800 bg-transparent text-sm font-black text-white hover:border-white hover:bg-white hover:text-slate-950"
-                />
                 <SaveToBoxButton
                   productId={product.id}
-                  className="button-clear-hover h-11 w-full rounded-xl border-slate-800 bg-transparent text-sm font-black text-white hover:border-white hover:bg-white hover:text-slate-950"
+                  className="h-12 rounded-xl border-slate-800 bg-transparent px-5 text-base font-black text-white hover:border-white hover:bg-white hover:text-slate-950"
                 />
               </div>
-              <div className="mt-4 rounded-xl bg-emerald-500/10 p-3 text-xs font-semibold text-emerald-300">
-                <Check className="mr-2 inline size-4" /> Compra segura. Você é redirecionado para o marketplace parceiro para finalizar.
-              </div>
-              <p className="mt-3 text-xs text-sky-100/55"><Info className="mr-1 inline size-3.5" /> Podemos receber comissão por compras realizadas através deste link.</p>
             </Card>
-
-            <div className="flex flex-col gap-3">
-              <h2 className="text-sm font-black uppercase tracking-wide text-sky-100/55">Destaques</h2>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {Object.entries(product.specs).slice(0, 2).map(([key, value]) => (
-                  <Card key={key} className="rounded-xl border-slate-800 bg-[#07101f] p-3 text-sm text-sky-100/70">
-                    <Check className="mr-2 inline size-4 text-emerald-400" /> {key}: <strong className="text-white">{value}</strong>
-                  </Card>
-                ))}
-              </div>
-            </div>
           </div>
         </section>
 
-        <section className="flex flex-col gap-5">
-          <h2 className="text-[1.45rem] font-black leading-tight text-white sm:text-2xl">Por que escolher este produto?</h2>
-          <div className="grid gap-3 min-[420px]:grid-cols-2 md:grid-cols-4">
-            {PDP_CHOICE_REASON_HIGHLIGHTS.map(({ label, Icon, iconColorClassName }) => (
-              <Card key={label} className="rounded-2xl border-slate-800 bg-[#07101f] p-4 text-center shadow-xl shadow-black/20 md:p-6">
-                <Icon className={`mx-auto mb-2 size-6 sm:mb-3 ${iconColorClassName}`} />
-                <strong className="block text-sm text-white">{label}</strong>
-                <span className="mt-2 inline-flex rounded-full bg-emerald-500/15 px-2 py-1 text-[10px] font-black text-emerald-400">Selecionado</span>
-              </Card>
+        <section id="ofertas" className="flex flex-col gap-4 scroll-mt-28">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-2xl font-black text-white md:text-3xl">Melhor oferta e comparação de preços</h2>
+            <p className="text-sky-100/70">Confira loja, preço, parcelamento, frete, disponibilidade e atualização antes de seguir para o marketplace.</p>
+          </div>
+          <div className="overflow-hidden rounded-2xl border border-slate-800 bg-[#07101f]">
+            <div className="hidden grid-cols-[1.1fr_0.75fr_1fr_0.8fr_0.8fr_0.9fr_0.8fr] gap-3 border-b border-slate-800 px-4 py-3 text-xs font-black uppercase text-sky-100/45 md:grid">
+              <span>Loja</span>
+              <span>Preço</span>
+              <span>Parcelamento</span>
+              <span>Frete</span>
+              <span>Status</span>
+              <span>Atualização</span>
+              <span>Ação</span>
+            </div>
+            {offers.map((offer) => (
+              <div key={offer.id} className="grid gap-3 border-b border-slate-800 p-4 text-sm last:border-b-0 md:grid-cols-[1.1fr_0.75fr_1fr_0.8fr_0.8fr_0.9fr_0.8fr] md:items-center">
+                <span className="flex items-center gap-3">
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-cyan-400/10 text-xs font-black text-cyan-200">{offer.storeLogo}</span>
+                  <span className="flex flex-col gap-1">
+                    <strong className="text-white">{offer.storeName}</strong>
+                    {offer.isBestPrice ? <span className="text-xs font-black text-emerald-300">Menor preço</span> : null}
+                  </span>
+                </span>
+                <strong className="text-lg text-white">{formatCurrency(offer.price)}</strong>
+                <span className="text-sky-100/70">{offer.installment}</span>
+                <span className="text-sky-100/70">{offer.shipping}</span>
+                <span className="text-emerald-300">{offer.availability}</span>
+                <span className="text-sky-100/55">{new Date(offer.lastUpdated).toLocaleDateString("pt-BR")}</span>
+                <Button asChild className="h-10 rounded-xl bg-[#38aefb] font-black text-slate-950">
+                  <Link href={`/oferta/${offer.id}`}>Ver oferta <ExternalLink className="size-4" /></Link>
+                </Button>
+              </div>
             ))}
           </div>
+          <AffiliateDisclosure />
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4 md:p-6">
-            <h2 className="text-xl font-black text-white md:text-2xl">Descrição completa</h2>
-            <p className="mt-4 leading-7 text-sky-100/70">{product.fullDescription}</p>
-            <div className="mt-6 grid gap-5 md:grid-cols-2">
-              <div>
-                <h3 className="text-sm font-black uppercase text-emerald-400">Pontos positivos</h3>
-                <ul className="mt-3 flex flex-col gap-2 text-sm text-sky-100/80">{product.pros.slice(0, 3).map((item) => <li key={item}>+ {item}</li>)}</ul>
-              </div>
-              <div>
-                <h3 className="text-sm font-black uppercase text-amber-400">Pontos de atenção</h3>
-                <ul className="mt-3 flex flex-col gap-2 text-sm text-sky-100/80">{product.cons.slice(0, 3).map((item) => <li key={item}>! {item}</li>)}</ul>
-              </div>
+        <section className="grid gap-4 md:grid-cols-5">
+          {scoreCards.map(([label, value, color]) => (
+            <Card key={label} className="rounded-2xl border-slate-800 bg-[#07101f] p-4">
+              <span className="text-sm text-sky-100/55">{label}</span>
+              <strong className={`mt-2 block text-xl font-black ${color}`}>{value}</strong>
+            </Card>
+          ))}
+          <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4">
+            <span className="text-sm text-sky-100/55">Indicação de uso</span>
+            <strong className="mt-2 block text-xl font-black text-white">Uso diário tech</strong>
+          </Card>
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-2">
+          <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-5">
+            <h2 className="text-xl font-black text-white">Prós</h2>
+            <div className="mt-4 flex flex-col gap-3">
+              {[...product.pros.slice(0, 3), "preço competitivo"].slice(0, 4).map((item) => (
+                <span key={item} className="flex items-start gap-2 text-sm leading-6 text-sky-100/75"><Check className="mt-1 size-4 shrink-0 text-emerald-300" /> {item}</span>
+              ))}
             </div>
           </Card>
-          <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-4 md:p-6">
-            <h2 className="text-xl font-black text-white">Especificações técnicas</h2>
+          <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-5">
+            <h2 className="text-xl font-black text-white">Contras</h2>
+            <div className="mt-4 flex flex-col gap-3">
+              {[...product.cons.slice(0, 3), "frete pode impactar preço final"].slice(0, 4).map((item) => (
+                <span key={item} className="flex items-start gap-2 text-sm leading-6 text-sky-100/75"><X className="mt-1 size-4 shrink-0 text-amber-300" /> {item}</span>
+              ))}
+            </div>
+          </Card>
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
+          <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-5 md:p-6">
+            <h2 className="text-2xl font-black text-white">Análise completa</h2>
+            <p className="mt-4 leading-7 text-sky-100/72">{product.fullDescription}</p>
+            <p className="mt-4 leading-7 text-sky-100/72">
+              Este produto é indicado para quem busca uma opção equilibrada dentro da categoria {product.category.toLowerCase()}, com atenção ao preço final, avaliações e disponibilidade entre marketplaces. Vale a pena quando a melhor oferta mantém boa diferença em relação ao preço antigo e o frete não anula a economia.
+            </p>
+          </Card>
+          <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-5 md:p-6">
+            <h2 className="text-2xl font-black text-white">Especificações técnicas</h2>
             <div className="mt-5 flex flex-col gap-3">
               {Object.entries(product.specs).map(([key, value]) => (
                 <div key={key} className="flex flex-col gap-1 border-b border-slate-800 pb-3 text-sm min-[420px]:flex-row min-[420px]:justify-between min-[420px]:gap-4">
@@ -140,44 +186,34 @@ export function ProductDetailPageView({
           </Card>
         </section>
 
-        <Card asChild className="rounded-2xl border-slate-800 bg-[#07101f] p-4 md:p-6">
-          <section>
-            <h2 className="text-xl font-black text-white md:text-2xl">Avaliações de quem comprou</h2>
-            <div className="mt-6 grid gap-5 md:grid-cols-[110px_1fr] md:gap-6">
-              <div>
-                <strong className="text-5xl font-black text-cyan-400">{product.rating.toFixed(1)}</strong>
-                <div className="mt-1 flex text-amber-400">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className="size-4 fill-amber-400" />)}</div>
-                <span className="text-xs text-sky-100/60">{product.reviewsCount.toLocaleString("pt-BR")} avaliações</span>
-              </div>
-              <div className="flex min-h-24 items-center rounded-xl border border-slate-800 bg-slate-950/30 p-4 text-sm leading-6 text-sky-100/65">
-                Avaliações e depoimentos são carregados da tabela de reviews do banco.
-              </div>
+        <Card className="rounded-2xl border-slate-800 bg-[#07101f] p-5 md:p-6">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <h2 className="text-2xl font-black text-white">Avaliações e opinião geral</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-sky-100/70">Resumo editorial com base em nota média, recorrência de elogios e pontos de atenção comuns em produtos da categoria.</p>
             </div>
-            {product.reviews.length > 0 ? (
-              <div className="mt-6 flex flex-col gap-3">
-                {product.reviews.map(({ authorName, rating, publishedAt, body }) => (
-                  <Card key={`${authorName}-${publishedAt}`} className="rounded-xl border-slate-800 p-4">
-                    <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div>
-                        <strong className="text-white">{authorName}</strong>
-                        <div className="flex text-amber-400">
-                          {Array.from({ length: 5 }).map((_, star) => (
-                            <Star key={star} className={`size-3 ${star < Math.round(rating) ? "fill-amber-400" : "fill-transparent text-slate-500"}`} />
-                          ))}
-                        </div>
-                      </div>
-                      <span className="text-xs text-sky-100/50">{new Date(publishedAt).toLocaleDateString("pt-BR")}</span>
-                    </div>
-                    <p className="mt-2 text-sm text-sky-100/70">{body}</p>
-                  </Card>
-                ))}
-              </div>
-            ) : null}
-          </section>
+            <div className="rounded-2xl bg-slate-950/45 p-4">
+              <strong className="text-5xl font-black text-cyan-300">{product.rating.toFixed(1)}</strong>
+              <span className="ml-2 text-sm text-sky-100/60">/ 5</span>
+            </div>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {["boa relação entre preço e recursos", "facilidade de uso no dia a dia", "atenção a estoque, frete e vendedor"].map((comment, index) => (
+              <Card key={comment} className="rounded-xl border-slate-800 bg-slate-950/35 p-4">
+                <span className="flex items-center gap-1 text-amber-300">{Array.from({ length: 5 }).map((_, star) => <Star key={star} className="size-3.5 fill-amber-300" />)}</span>
+                <p className="mt-3 text-sm leading-6 text-sky-100/75">{index === 2 ? "Ponto de atenção: " : "Comentário frequente: "}{comment}.</p>
+              </Card>
+            ))}
+          </div>
         </Card>
 
+        <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-sky-100/70">
+          <Info className="mt-0.5 size-5 shrink-0 text-cyan-300" />
+          <p>O TechParks não vende diretamente. Organizamos análise, comparação e ofertas; a decisão e a finalização acontecem no marketplace parceiro.</p>
+        </div>
+
         <section className="flex flex-col gap-5 pb-16 md:pb-24">
-          <h2 className="text-xl font-black text-white md:text-2xl">Produtos relacionados</h2>
+          <h2 className="text-2xl font-black text-white">Produtos similares</h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {relatedProducts.map((item) => (
               <ProductCard key={item.id} product={item} />

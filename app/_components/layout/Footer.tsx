@@ -46,7 +46,7 @@ export function Footer() {
         <div className="flex flex-col items-start gap-5">
           <Logo />
           <p className="footer-lead max-w-[280px] text-sm leading-7 text-[#b1c6dd]">
-            Curadoria inteligente dos melhores produtos de tecnologia, com comparativos, reviews e ofertas reais.
+            Plataforma de comparação e curadoria para analisar produtos tech antes de escolher o marketplace.
           </p>
           <div className=" cursor-pointer flex gap-2">
             <SocialIcon type="instagram" />
@@ -78,7 +78,7 @@ export function Footer() {
         <div className="flex flex-col gap-4 sm:col-span-2 md:col-span-1">
           <h2 className="text-xs font-normal uppercase tracking-wide text-white" style={{ fontFamily: '"Roboto Mono", "SFMono-Regular", Consolas, monospace' }}>Aviso de comissão</h2>
           <p className="max-w-[310px] text-xs leading-6 text-[#9db7d5]">
-            Este site pode receber comissão por compras realizadas através dos links divulgados. A compra é finalizada diretamente no marketplace parceiro de forma segura, sem custo adicional para você.
+            Podemos receber comissão quando você acessa uma oferta através dos nossos links. Isso não altera o preço final para você.
           </p>
         </div>
       </div>

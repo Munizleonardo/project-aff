@@ -7,8 +7,8 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
       <Search className="size-4 text-slate-400" />
       <Input
         className="h-full min-w-0 flex-1 border-0 bg-transparent px-0 text-sm font-medium text-white shadow-none outline-none placeholder:text-slate-400 focus-visible:ring-0"
-        placeholder={compact ? "Buscar produtos..." : "Buscar produtos, marcas, categorias..."}
-        aria-label="Buscar produtos"
+        placeholder={compact ? "Busque produtos ou ofertas" : "Busque produtos, comparativos ou ofertas"}
+        aria-label="Busque produtos, comparativos ou ofertas"
       />
     </form>
   );

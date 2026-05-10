@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { UserMenu } from "@/app/_components/auth/UserMenu";
 import { Button } from "@/app/_components/ui/button";
-import { CartButton } from "@/app/_components/cart/CartButton";
 import { DepartmentMenu } from "@/app/_components/layout/DepartmentMenu";
 import { FloatingDepartmentsPanel } from "@/app/_components/layout/header/floating-departments-panel";
 import { FloatingSearchPanel } from "@/app/_components/layout/header/floating-search-panel";
@@ -68,17 +67,25 @@ export function Header() {
           <Logo />
           <div className="relative hidden md:block group">
             <Button variant="ghost" className="h-10 px-2 text-sm font-black text-white hover:bg-white hover:text-slate-950">
-              Departamentos <ChevronDown className="size-4" />
+              Categorias <ChevronDown className="size-4" />
             </Button>
             <DepartmentMenu departments={departments} />
           </div>
           <div className="hidden flex-1 justify-center md:flex">
             <SearchBar />
           </div>
-          <nav className="ml-auto hidden items-center gap-4 md:flex">
+          <nav className="ml-auto hidden items-center gap-2 md:flex">
+            <Button asChild variant="ghost" className="h-10 px-3 text-sm font-black text-white hover:bg-white hover:text-slate-950">
+              <Link href="/comparativos">Comparativos</Link>
+            </Button>
+            <Button asChild variant="ghost" className="h-10 px-3 text-sm font-black text-white hover:bg-white hover:text-slate-950">
+              <Link href="/ofertas">Ofertas</Link>
+            </Button>
+            <Button asChild variant="ghost" className="h-10 px-3 text-sm font-black text-white hover:bg-white hover:text-slate-950">
+              <Link href="/mais-acessados">Mais acessados</Link>
+            </Button>
             <ThemeToggle />
             <UserMenu />
-            <CartButton />
           </nav>
           <div className="ml-auto md:hidden">
             <MobileMenu departments={departments} />
@@ -119,7 +126,6 @@ export function Header() {
         />
         <ThemeToggle />
         <UserMenu railMode />
-        <CartButton />
       </nav>
     </>
   );

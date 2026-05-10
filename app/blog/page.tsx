@@ -6,7 +6,7 @@ import { getBlogPosts } from "@/data/blog-posts";
 
 export const metadata: Metadata = {
   title: "Blog tech, reviews e guias de compra",
-  description: "Guias sobre setup, gadgets, casa inteligente, home office e comparativos para comprar melhor.",
+  description: "Guias sobre setup, gadgets, casa inteligente, home office e comparativos para decidir melhor.",
   alternates: { canonical: "/blog" },
 };
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CheckCircle2, Heart, ShieldCheck } from "lucide-react";
-import { Product } from "@/data/products";
+import { getProductOfferPath, Product } from "@/data/products";
 import { Button } from "@/app/_components/ui/button";
 import { AffiliateDisclosure } from "@/app/_components/marketing/AffiliateDisclosure";
 import { ProductPrice } from "./ProductPrice";
@@ -18,14 +18,14 @@ export function ProductDetails({ product }: { product: Product }) {
       <ProductPrice oldPrice={product.oldPrice} price={product.price} installment={product.installment} discountPercentage={product.discountPercentage} large />
       <div className="flex flex-col gap-3 sm:flex-row">
         <Button asChild className="h-12 bg-cyan-400 px-5 text-base font-black text-slate-950 hover:bg-cyan-300">
-          <Link href={`/oferta/${product.id}`}>Ver oferta</Link>
+          <Link href={getProductOfferPath(product)}>Ver melhor oferta</Link>
         </Button>
         <Button variant="outline" className="h-12 border-white/15 bg-white/10 px-5 text-base font-bold text-white hover:bg-white/15">
-          <Heart className="size-5" /> Adicionar aos favoritos
+          <Heart className="size-5" /> Salvar análise
         </Button>
       </div>
       <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] p-3 text-sm font-semibold text-slate-200">
-        <ShieldCheck className="size-5 text-emerald-300" /> Compra finalizada no marketplace parceiro
+        <ShieldCheck className="size-5 text-emerald-300" /> Você é redirecionado para o marketplace parceiro
       </div>
       <AffiliateDisclosure />
       <div className="grid gap-3 sm:grid-cols-2">
