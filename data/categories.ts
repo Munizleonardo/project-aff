@@ -124,5 +124,6 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
     { select: "*", slug: `eq.${slug}`, limit: 1 },
     { revalidate: 300 }
   );
-  return categories[0] ? withCategoryIcon(categories[0]) : null;
+  const category = categories[0] ?? defaultTechCategories.find((item) => item.slug === slug);
+  return category ? withCategoryIcon(category) : null;
 }
